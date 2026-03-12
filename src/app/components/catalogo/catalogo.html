@@ -1,0 +1,27 @@
+<header class="header">
+  <div class="header-content">
+    <h1>CATÁLOGO</h1>
+    <div class="header-stats">
+      <div class="stock-badge">
+        <span class="icon"></span>
+        <span>{{ inStockCount() }} productos disponibles</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+@if (products().length === 0) {
+  <div class="loading">
+    <div class="loading-spinner"></div>
+    <p>Cargando productos...</p>
+  </div>
+} @else {
+  <section class="grid">
+    @for (p of products(); track p.id) {
+      <app-product-card [product]="p" (add)="agregar($event)"></app-product-card>
+    }
+  </section>
+}
+
+<hr class="sep" />
+<app-carrito></app-carrito>

@@ -1,0 +1,36 @@
+<article class="product-card">
+  <div class="image-container">
+    <img [src]="product.imageUrl" [alt]="product.name"/>
+    <span class="image-overlay">{{ product.category }}</span>
+  </div>
+
+  <div class="product-info">
+    <div class="product-header"> 
+      <h3>{{product.name}}</h3>
+      <span class="price">${{product.price}}</span>
+    </div>
+
+    <div class="product-body">
+      <span class="category">{{product.category}}</span>
+      <p class="description">{{product.description}}</p>
+      <p class="stock">
+        @if(product.inStock){
+          <span class="in">
+            <span class="indicator"></span>
+            En Stock
+          </span>
+        }
+        @else{
+          <span class="out">
+            <span class="indicator"></span>
+            Agotado
+          </span>
+        }
+      </p>
+      <button class="btn btn-primary" [disabled]="!product.inStock" (click)="onAdd()">
+        <span class="icon">🛒</span>
+        {{ product.inStock ? 'Agregar al carrito' : 'No disponible' }}
+      </button>
+    </div>
+  </div>
+</article>

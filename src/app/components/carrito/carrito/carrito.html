@@ -1,0 +1,35 @@
+<section class="cart">
+  <h2 class="title">Tu Carrito</h2>
+
+  @if (carrito().length === 0) {
+    <p class="empty">Tu carrito está vacío. ¡Explora nuestro catálogo!</p>
+  } @else {
+    <ul class="list">
+      @for (producto of carrito(); track producto.id) {
+        <li class="item">
+          <span class="line">
+            <span class="name">{{ producto.name }}</span>
+            <span class="price">{{ producto.price | currency:'MXN' }}</span>
+          </span>
+          <button class="btn btn-quitar" (click)="quitar(producto.id)">
+            ✕ Quitar
+          </button>
+        </li>
+      }
+    </ul>
+
+    <div class="total">
+      <span class="total-label">Total</span>
+      <span class="total-amount">{{ total() | currency:'MXN' }}</span>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-danger" (click)="vaciar()">
+        🗑️ Vaciar carrito
+      </button>
+      <button class="btn btn-purple" (click)="exportarXML()">
+        📄 Exportar XML
+      </button>
+    </div>
+  }
+</section>

@@ -1,0 +1,53 @@
+<products>
+
+  <product>
+    <id>1</id>
+    <name>Chanel N°5</name>
+    <price>2899.99</price>
+    <imageUrl>https://perfumesmb.com.ec/wp-content/uploads/2020/06/chanel-no-5-edp.jpg</imageUrl>
+    <category>Perfume femenino</category>
+    <description>Perfume clásico y elegante con notas florales y atemporales.</description>
+    <inStock>true</inStock>
+  </product>
+
+  <product>
+    <id>2</id>
+    <name>Dior Sauvage</name>
+    <price>2599.50</price>
+    <imageUrl>https://www.sephora.com.mx/on/demandware.static/-/Sites-masterCatalog_Sephora/es_MX/dwf31db7f3/images/hi-res/boletos/Roc%C3%ADo%20Mart%C3%ADnez/DIOR/ROUGE%20DIOR/3348901605366_X2.jpg</imageUrl>
+    <category>Perfume masculino</category>
+    <description>Fragancia fresca y potente con carácter intenso y moderno.</description>
+    <inStock>true</inStock>
+  </product>
+
+  <product>
+    <id>3</id>
+    <name>Carolina Herrera 212</name>
+    <price>1999.00</price>
+    <imageUrl>https://fimgs.net/images/secundar/o.34632.jpg</imageUrl>
+    <category>Perfume unisex</category>
+    <description>Aroma urbano y versátil ideal para cualquier ocasión.</description>
+    <inStock>true</inStock>
+  </product>
+
+  <product>
+    <id>4</id>
+    <name>Versace Eros</name>
+    <price>2399.00</price>
+    <imageUrl>https://valrobcell.com/wp-content/uploads/2021/12/perfume-versace-eros-100ml-edt-8011003809219.jpg</imageUrl>
+    <category>Perfume masculino</category>
+    <description>Fragancia intensa y seductora con notas orientales y frescas.</description>
+    <inStock>true</inStock>
+  </product>
+
+  <product>
+    <id>5</id>
+    <name>Good Girl</name>
+    <price>2199.00</price>
+    <imageUrl>https://alfariscosmetique.ma/wp-content/uploads/2023/03/CAROLINA-HERRERA-good-girl-eau-de-parfum.png</imageUrl>
+    <category>Perfume femenino</category>
+    <description>Perfume sofisticado y femenino con un toque dulce y elegante.</description>
+    <inStock>true</inStock>
+  </product>
+
+</products>
