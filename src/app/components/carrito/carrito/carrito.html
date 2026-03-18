@@ -1,35 +1,76 @@
-<section class="cart">
-  <h2 class="title">Tu Carrito</h2>
+<app-navbar></app-navbar>
 
-  @if (carrito().length === 0) {
-    <p class="empty">Tu carrito está vacío. ¡Explora nuestro catálogo!</p>
-  } @else {
-    <ul class="list">
-      @for (producto of carrito(); track producto.id) {
-        <li class="item">
-          <span class="line">
-            <span class="name">{{ producto.name }}</span>
-            <span class="price">{{ producto.price | currency:'MXN' }}</span>
-          </span>
-          <button class="btn btn-quitar" (click)="quitar(producto.id)">
-            ✕ Quitar
-          </button>
-        </li>
-      }
-    </ul>
+<!-- Starfield Background -->
+<div id="starfield"></div>
+<div class="nebula-bg"></div>
+<div class="nebula-cloud nc-1"></div>
+<div class="nebula-cloud nc-2"></div>
+<div class="nebula-cloud nc-3"></div>
 
-    <div class="total">
-      <span class="total-label">Total</span>
-      <span class="total-amount">{{ total() | currency:'MXN' }}</span>
-    </div>
+<main class="cart-page">
+  <div class="cart-container">
+    <!-- Botón de regresar -->
+    <a routerLink="/" class="back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Volver al catálogo
+    </a>
 
-    <div class="actions">
-      <button class="btn btn-danger" (click)="vaciar()">
-        🗑️ Vaciar carrito
-      </button>
-      <button class="btn btn-purple" (click)="exportarXML()">
-        📄 Exportar XML
-      </button>
-    </div>
-  }
-</section>
+    <h1 class="cart-title">Tu Carrito</h1>
+
+    @if (groupedItems().length === 0) {
+      <div class="empty-cart">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <p>Tu carrito está vacío</p>
+        <a routerLink="/" class="continue-btn">Ver catálogo</a>
+      </div>
+    } @else {
+      <ul class="cart-list">
+        @for (item of groupedItems(); track item.product.id) {
+          <li class="cart-item">
+            <div class="item-info">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image"/>
+              <div class="item-details">
+                <h3>{{ item.product.name }}</h3>
+                <span class="item-category">{{ item.product.category }}</span>
+              </div>
+            </div>
+            <div class="item-actions">
+              <div class="quantity-controls">
+                <button class="qty-btn minus" (click)="quitar(item.product.id)">−</button>
+                <span class="qty">{{ item.quantity }}</span>
+                <button class="qty-btn plus" (click)="agregar(item.product)">+</button>
+              </div>
+              <span class="item-price">{{ item.product.price * item.quantity | currency:'MXN' }}</span>
+              <button class="remove-btn" (click)="removeAll(item.product.id)">
+                Eliminar
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+
+      <div class="cart-total">
+        <span class="total-label">Total</span>
+        <span class="total-amount">{{ total() | currency:'MXN' }}</span>
+      </div>
+
+      <div class="cart-actions">
+        <button class="btn btn-danger" (click)="vaciar()">
+          Vaciar carrito
+        </button>
+        <button class="btn btn-primary" (click)="exportarXML()">
+          Generar recibo
+        </button>
+      </div>
+    }
+  </div>
+</main>
+
+<app-footer></app-footer>

@@ -1,0 +1,32 @@
+<!-- Starfield Background -->
+<div id="starfield"></div>
+<div class="nebula-bg"></div>
+<div class="nebula-cloud nc-1"></div>
+<div class="nebula-cloud nc-2"></div>
+<div class="nebula-cloud nc-3"></div>
+
+<app-navbar></app-navbar>
+
+<!-- Banner Principal -->
+<section class="banner">
+  <div class="banner-content">
+    <h1>Catálogo</h1>
+  </div>
+</section>
+
+<!-- Catálogo de Productos -->
+<app-catalogo></app-catalogo>
+
+<!-- Botón flotante del carrito -->
+<a routerLink="/carrito" (click)="onNavigate()" class="floating-cart">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+  </svg>
+  @if (carritoService.itemCount() > 0) {
+    <span class="badge">{{ carritoService.itemCount() }}</span>
+  }
+</a>
+
+<app-footer></app-footer>

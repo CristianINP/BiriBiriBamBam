@@ -1,0 +1,127 @@
+/* ===== FOOTER - NEBULA THEME CON BORDES REDONDEADOS ===== */
+.footer {
+  background: rgba(8, 16, 28, 0.85);
+  border-top: 1px solid var(--border-subtle);
+  padding: 48px 48px 24px;
+  margin-top: auto;
+  backdrop-filter: blur(10px);
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+.footer-section h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--star-white);
+  margin-bottom: 20px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section li {
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.footer-section a:hover {
+  color: var(--electric);
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-dim);
+  transition: var(--transition);
+}
+
+.social-links a:hover {
+  border-color: var(--electric);
+  color: var(--electric);
+  box-shadow: 0 0 15px rgba(74, 158, 255, 0.3);
+}
+
+/* Aviso de Privacidad */
+.privacy-notice {
+  max-width: 1400px;
+  margin: 40px auto 0;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+}
+
+.privacy-content h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--star-white);
+  margin-bottom: 10px;
+}
+
+.privacy-content p {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  max-width: 1400px;
+  margin: 24px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 24px 20px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}

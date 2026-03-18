@@ -1,5 +1,10 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Product } from '../../../models/producto/producto';
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class CarritoService {
@@ -9,11 +14,43 @@ export class CarritoService {
   // Exponer como readonly
   productos = this.productosSignal.asReadonly();
 
+  // Productos agrupados con cantidad
+  groupedItems = computed(() => {
+    const items: CartItem[] = [];
+    const productMap = new Map<number, CartItem>();
+    
+    for (const product of this.productosSignal()) {
+      if (productMap.has(product.id)) {
+        productMap.get(product.id)!.quantity++;
+      } else {
+        productMap.set(product.id, { product, quantity: 1 });
+      }
+    }
+    
+    productMap.forEach(item => items.push(item));
+    return items;
+  });
+
+  // Total de items en carrito
+  itemCount = computed(() => this.productosSignal().length);
+
   agregar(producto: Product) {
     this.productosSignal.update(lista => [...lista, producto]);
   }
 
   quitar(id: number) {
+    // Remover solo una instancia del producto
+    const lista = this.productosSignal();
+    const index = lista.findIndex(p => p.id === id);
+    if (index !== -1) {
+      const nuevaLista = [...lista];
+      nuevaLista.splice(index, 1);
+      this.productosSignal.set(nuevaLista);
+    }
+  }
+
+  // Remover todas las instancias de un producto
+  removeAll(id: number) {
     this.productosSignal.update(lista => lista.filter(p => p.id !== id));
   }
 
@@ -62,6 +99,6 @@ export class CarritoService {
       .replaceAll('<', '<')
       .replaceAll('>', '>')
       .replaceAll('"', '"')
-      .replaceAll("'", "&apos;");
+      .replaceAll("'", "'");
   }
 }

@@ -1,177 +1,137 @@
-/* ===== CATÁLOGO ULTRAPREMIUM ===== */
+/* ===== CATÁLOGO - NEBULA THEME CON BORDES REDONDEADOS ===== */
 app-catalogo {
   display: block;
   min-height: 100vh;
-  padding-bottom: 80px;
+  padding-bottom: 48px;
 }
 
-/* Header Impactante */
-.header {
-  background: linear-gradient(135deg, 
-    rgba(255, 215, 0, 0.1) 0%, 
-    rgba(0, 0, 0, 0.8) 50%,
-    rgba(191, 0, 255, 0.1) 100%);
+/* Header */
+.catalog-header {
+  background: rgba(8, 16, 28, 0.85);
+  padding: 32px 48px;
+  border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  padding: 50px;
-  border-radius: 32px;
-  margin: 30px 40px;
-  position: relative;
-  overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Efecto de borde brillante */
-.header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    var(--accent-gold), 
-    var(--accent-cyan),
-    var(--accent-magenta),
-    var(--accent-gold),
-    transparent);
-  background-size: 200% 100%;
-  animation: headerBorder 3s linear infinite;
-}
-
-@keyframes headerBorder {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Orbes de luz decorativos */
-.header::after {
-  content: '';
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
-  top: -100px;
-  right: -50px;
-  pointer-events: none;
-  animation: orbFloat 6s ease-in-out infinite;
-}
-
-@keyframes orbFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-20px, 20px) scale(1.1); }
-}
-
-/* Segunda orb */
-.header .orb {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(191, 0, 255, 0.12) 0%, transparent 70%);
-  bottom: -80px;
-  left: -50px;
-  animation: orbFloat2 8s ease-in-out infinite reverse;
-}
-
-@keyframes orbFloat2 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(30px, -30px); }
+.catalog-header:hover {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(74, 158, 255, 0.1);
 }
 
 .header-content {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 24px;
+}
+
+.header-info h1 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--star-white);
   position: relative;
-  z-index: 1;
+  display: inline-block;
 }
 
-.header h1 {
-  font-size: 3rem;
-  background: linear-gradient(135deg, 
-    #fff 0%, 
-    var(--accent-gold) 50%, 
-    #fff 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: titleShine 4s linear infinite;
-  text-shadow: none;
-  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+.header-info h1::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--electric);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 6px var(--electric);
 }
 
-@keyframes titleShine {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
+.header-info h1:hover::after {
+  width: 100%;
 }
 
-/* Badge de stock */
-.header-stats {
+/* Filtros con efectos */
+.filters {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.stock-badge {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  padding: 14px 28px;
-  border-radius: 20px;
-  color: var(--success);
-  font-weight: 600;
-  font-size: 1rem;
-  box-shadow: 
-    0 0 30px rgba(0, 255, 136, 0.2),
-    inset 0 0 20px rgba(0, 255, 136, 0.05);
+.filter-btn {
+  padding: 10px 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--silver);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.stock-badge .icon {
-  width: 12px;
-  height: 12px;
-  background: var(--success);
-  border-radius: 50%;
-  box-shadow: 0 0 15px var(--success);
-  animation: iconPulse 2s infinite;
+.filter-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--electric);
+  transition: left 0.3s ease;
+  z-index: -1;
 }
 
-@keyframes iconPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 15px var(--success); }
-  50% { transform: scale(1.2); box-shadow: 0 0 25px var(--success); }
+.filter-btn:hover {
+  border-color: var(--electric);
+  color: var(--star-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
+}
+
+.filter-btn.active {
+  background: rgba(74, 158, 255, 0.2);
+  border-color: var(--electric);
+  color: var(--star-white);
+}
+
+.filter-btn.active:hover {
+  background: var(--electric);
+  border-color: var(--electric);
+  color: var(--void);
 }
 
 /* Grid de productos */
-.grid {
+.products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: 40px;
-  margin: 0 40px;
-  padding: 40px 0;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 48px;
 }
 
-/* Loading state */
+/* Loading */
 .loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 100px 20px;
-  color: var(--text-secondary);
+  padding: 80px 20px;
 }
 
 .loading-spinner {
-  width: 64px;
-  height: 64px;
-  border: 3px solid rgba(255, 215, 0, 0.1);
-  border-top-color: var(--accent-gold);
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--border-subtle);
+  border-top-color: var(--electric);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+  animation: spin 0.8s linear infinite;
+  box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
 }
 
 @keyframes spin {
@@ -179,49 +139,46 @@ app-catalogo {
 }
 
 .loading p {
-  font-size: 1.2rem;
-  margin-top: 24px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-top: 16px;
   animation: pulse 1.5s infinite;
-  background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-/* Separador */
-.sep {
-  border: none;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 215, 0, 0.3), 
-    transparent);
-  margin: 50px 40px;
-  position: relative;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-.sep::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  background: var(--accent-gold);
-  border-radius: 50%;
-  box-shadow: 0 0 20px var(--accent-gold);
+/* No results */
+.no-results {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 48px;
+  text-align: center;
+}
+
+.no-results p {
+  color: var(--text-dim);
+  font-size: 1rem;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .header {
-    margin: 20px;
-    padding: 40px 24px;
+@media (max-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
 
-  .header h1 {
-    font-size: 2.2rem;
+@media (max-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-header {
+    padding: 24px;
   }
 
   .header-content {
@@ -229,28 +186,15 @@ app-catalogo {
     align-items: flex-start;
   }
 
-  .grid {
-    margin: 0 20px;
-    gap: 30px;
-  }
-
-  .sep {
-    margin: 40px 20px;
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 24px;
   }
 }
 
 @media (max-width: 480px) {
-  .header h1 {
-    font-size: 1.8rem;
-  }
-
-  .grid {
+  .products-grid {
     grid-template-columns: 1fr;
-    margin: 0 16px;
-  }
-
-  .stock-badge {
-    width: 100%;
-    justify-content: center;
   }
 }

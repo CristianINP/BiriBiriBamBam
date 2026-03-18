@@ -1,36 +1,22 @@
 <article class="product-card">
   <div class="image-container">
     <img [src]="product.imageUrl" [alt]="product.name"/>
-    <span class="image-overlay">{{ product.category }}</span>
+    <span class="category-tag">{{ product.category }}</span>
   </div>
 
   <div class="product-info">
-    <div class="product-header"> 
-      <h3>{{product.name}}</h3>
+    <h3 class="product-name">{{product.name}}</h3>
+    <p class="product-description">{{product.description}}</p>
+    
+    <div class="product-footer">
       <span class="price">${{product.price}}</span>
+      <span class="stock" [class.in-stock]="product.inStock" [class.out-of-stock]="!product.inStock">
+        {{ product.inStock ? 'En stock' : 'Agotado' }}
+      </span>
     </div>
-
-    <div class="product-body">
-      <span class="category">{{product.category}}</span>
-      <p class="description">{{product.description}}</p>
-      <p class="stock">
-        @if(product.inStock){
-          <span class="in">
-            <span class="indicator"></span>
-            En Stock
-          </span>
-        }
-        @else{
-          <span class="out">
-            <span class="indicator"></span>
-            Agotado
-          </span>
-        }
-      </p>
-      <button class="btn btn-primary" [disabled]="!product.inStock" (click)="onAdd()">
-        <span class="icon">🛒</span>
-        {{ product.inStock ? 'Agregar al carrito' : 'No disponible' }}
-      </button>
-    </div>
+    
+    <button class="add-btn" [disabled]="!product.inStock" (click)="onAdd()">
+      {{ product.inStock ? 'Agregar al carrito' : 'No disponible' }}
+    </button>
   </div>
 </article>

@@ -1,11 +1,37 @@
-<header class="header">
-  <div class="header-content">
-    <h1>CATÁLOGO</h1>
-    <div class="header-stats">
-      <div class="stock-badge">
-        <span class="icon"></span>
-        <span>{{ inStockCount() }} productos disponibles</span>
+<!-- Modal de confirmación -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="showModal.set(false)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
       </div>
+      <h3>¡Agregado al carrito!</h3>
+      <p>{{ modalProductName() }} ha sido agregado exitosamente</p>
+    </div>
+  </div>
+}
+
+<!-- Header -->
+<header class="catalog-header">
+  <div class="header-content">
+    <div class="header-info">
+      <h1>Catálogo</h1>
+    </div>
+    
+    <!-- Filtros de categoría -->
+    <div class="filters">
+      @for (cat of categories(); track cat) {
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedCategory() === cat"
+          (click)="onCategoryChange(cat)"
+        >
+          {{ cat === 'all' ? 'Todos' : cat }}
+        </button>
+      }
     </div>
   </div>
 </header>
@@ -15,13 +41,15 @@
     <div class="loading-spinner"></div>
     <p>Cargando productos...</p>
   </div>
+} @else if (filteredProducts().length === 0) {
+  <div class="no-results">
+    <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+  </div>
 } @else {
-  <section class="grid">
-    @for (p of products(); track p.id) {
+  <!-- Grid de productos -->
+  <section class="products-grid">
+    @for (p of filteredProducts(); track p.id) {
       <app-product-card [product]="p" (add)="agregar($event)"></app-product-card>
     }
   </section>
 }
-
-<hr class="sep" />
-<app-carrito></app-carrito>
