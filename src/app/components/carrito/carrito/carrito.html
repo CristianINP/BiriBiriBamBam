@@ -56,9 +56,19 @@
         }
       </ul>
 
-      <div class="cart-total">
-        <span class="total-label">Total</span>
-        <span class="total-amount">{{ total() | currency:'MXN' }}</span>
+      <div class="cart-totals">
+        <div class="subtotal-row">
+          <span class="total-label">Subtotal (sin impuestos)</span>
+          <span class="total-amount">{{ subtotal() | currency:'MXN' }}</span>
+        </div>
+        <div class="taxes-row">
+          <span class="total-label">Impuestos (16% IVA)</span>
+          <span class="total-amount">{{ impuestos() | currency:'MXN' }}</span>
+        </div>
+        <div class="total-final">
+          <span class="total-label">Total</span>
+          <span class="total-amount">{{ totalConImpuestos() | currency:'MXN' }}</span>
+        </div>
       </div>
 
       <div class="cart-actions">

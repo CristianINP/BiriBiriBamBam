@@ -18,6 +18,9 @@ export class CarritoComponent implements AfterViewInit {
   
   groupedItems = this.carritoService.groupedItems;
   total = computed(() => this.carritoService.total());
+  subtotal = computed(() => this.carritoService.subtotal());
+  impuestos = computed(() => this.carritoService.impuestos());
+  totalConImpuestos = computed(() => this.carritoService.totalConImpuestos());
 
   ngAfterViewInit() {
     // Initialize starfield after view is loaded (only in browser)

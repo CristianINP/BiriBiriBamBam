@@ -285,11 +285,11 @@
   background: rgba(248, 113, 113, 0.1);
 }
 
-/* Total */
-.cart-total {
+/* Totals */
+.cart-totals {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   background: var(--card-bg);
   border-radius: var(--radius-lg);
   padding: 24px;
@@ -298,25 +298,55 @@
   transition: all 0.3s ease;
 }
 
-.cart-total:hover {
+.cart-totals:hover {
   border-color: var(--electric);
   box-shadow: 0 8px 24px rgba(74, 158, 255, 0.15);
 }
 
-.total-label {
-  font-size: 1rem;
+.subtotal-row,
+.taxes-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.subtotal-row .total-label,
+.taxes-row .total-label {
+  font-size: 0.95rem;
   color: var(--silver);
+}
+
+.subtotal-row .total-amount,
+.taxes-row .total-amount {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  color: var(--silver);
+}
+
+.total-final {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.total-label {
+  font-size: 1.1rem;
+  color: var(--star-white);
+  font-weight: 500;
 }
 
 .total-amount {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--gold-light);
   transition: color 0.3s ease;
 }
 
-.cart-total:hover .total-amount {
+.cart-totals:hover .total-amount {
   color: var(--gold);
 }
 
@@ -391,10 +421,17 @@
     margin-top: 12px;
   }
 
-  .cart-total {
+  .cart-totals {
     flex-direction: column;
     gap: 8px;
     text-align: center;
+  }
+
+  .subtotal-row,
+  .taxes-row,
+  .total-final {
+    flex-direction: column;
+    gap: 4px;
   }
 
   .cart-actions {

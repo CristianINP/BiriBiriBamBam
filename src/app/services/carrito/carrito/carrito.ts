@@ -34,6 +34,15 @@ export class CarritoService {
   // Total de items en carrito
   itemCount = computed(() => this.productosSignal().length);
 
+  // Subtotal (sin impuestos)
+  subtotal = computed(() => this.productosSignal().reduce((acc, p) => acc + p.price, 0));
+
+  // Total con impuestos (16% IVA)
+  totalConImpuestos = computed(() => this.subtotal() * 1.16);
+
+  // Impuestos (16%)
+  impuestos = computed(() => this.subtotal() * 0.16);
+
   agregar(producto: Product) {
     this.productosSignal.update(lista => [...lista, producto]);
   }
@@ -59,7 +68,7 @@ export class CarritoService {
   }
 
   total(): number {
-    return this.productosSignal().reduce((acc, p) => acc + p.price, 0);
+    return this.subtotal();
   }
 
   exportarXML() {
@@ -79,7 +88,9 @@ export class CarritoService {
       xml += `  </producto>\n`;
     }
 
-    xml += `  <total>${this.total()}</total>\n`;
+    xml += `  <subtotal>${this.subtotal().toFixed(2)}</subtotal>\n`;
+    xml += `  <impuestos>${this.impuestos().toFixed(2)}</impuestos>\n`;
+    xml += `  <total>${this.totalConImpuestos().toFixed(2)}</total>\n`;
     xml += `</recibo>`;
 
     const blob = new Blob([xml], { type: 'application/xml' });
