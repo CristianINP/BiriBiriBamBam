@@ -14,42 +14,123 @@
   </div>
 }
 
-<!-- Header -->
-<header class="catalog-header">
-  <div class="header-content">
-    <div class="header-info">
-      <h1>Catálogo</h1>
+<!-- Main content with sidebar -->
+<main class="catalog-layout">
+  <!-- Sidebar Filters -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Filtros</h2>
+      <button class="clear-all-btn" (click)="clearAllFilters()">Limpiar todo</button>
     </div>
-    
-    <!-- Filtros de categoría -->
-    <div class="filters">
-      @for (cat of categories(); track cat) {
-        <button 
-          class="filter-btn" 
-          [class.active]="selectedCategory() === cat"
-          (click)="onCategoryChange(cat)"
-        >
-          {{ cat === 'all' ? 'Todos' : cat }}
-        </button>
-      }
-    </div>
-  </div>
-</header>
 
-@if (products().length === 0) {
-  <div class="loading">
-    <div class="loading-spinner"></div>
-    <p>Cargando productos...</p>
-  </div>
-} @else if (filteredProducts().length === 0) {
-  <div class="no-results">
-    <p>No se encontraron productos que coincidan con tu búsqueda.</p>
-  </div>
-} @else {
-  <!-- Grid de productos -->
-  <section class="products-grid">
-    @for (p of filteredProducts(); track p.id) {
-      <app-product-card [product]="p" (add)="agregar($event)"></app-product-card>
+    <!-- Categories -->
+    <div class="filter-section">
+      <h3 class="filter-title">Categorías</h3>
+      <div class="category-list">
+        @for (cat of categories(); track cat) {
+          <label class="category-item" [class.active]="selectedCategory() === cat">
+            <input 
+              type="radio" 
+              name="category" 
+              [value]="cat"
+              [checked]="selectedCategory() === cat"
+              (change)="onCategoryChange(cat)"
+            />
+            <span class="category-label">{{ cat === 'all' ? 'Todos' : cat }}</span>
+            <span class="category-count">({{ getCategoryCount(cat) }})</span>
+          </label>
+        }
+      </div>
+    </div>
+
+    <!-- Price Range -->
+    <div class="filter-section">
+      <h3 class="filter-title">Rango de Precio</h3>
+      <div class="price-inputs">
+        <div class="price-input-group">
+          <label>Min</label>
+          <input 
+            type="number" 
+            [ngModel]="minPrice()" 
+            (ngModelChange)="minPrice.set($event)"
+            min="0" 
+            placeholder="$0"
+          />
+        </div>
+        <span class="price-separator">-</span>
+        <div class="price-input-group">
+          <label>Max</label>
+          <input 
+            type="number" 
+            [ngModel]="maxPrice()" 
+            (ngModelChange)="maxPrice.set($event)"
+            min="0" 
+            placeholder="$9999"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock Filter -->
+    <div class="filter-section">
+      <h3 class="filter-title">Disponibilidad</h3>
+      <label class="checkbox-item">
+        <input 
+          type="checkbox" 
+          [ngModel]="onlyInStock()" 
+          (ngModelChange)="onlyInStock.set($event)"
+        />
+        <span class="checkbox-label">Solo productos en stock</span>
+      </label>
+    </div>
+
+    <!-- Sort Options -->
+    <div class="filter-section">
+      <h3 class="filter-title">Ordenar por</h3>
+      <select 
+        class="sort-select"
+        [ngModel]="sortOption()" 
+        (ngModelChange)="sortOption.set($event)"
+      >
+        <option value="name-asc">Nombre A-Z</option>
+        <option value="name-desc">Nombre Z-A</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- Products Area -->
+  <div class="products-area">
+    <header class="catalog-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1>Catálogo</h1>
+          <span class="product-count">{{ filteredProducts().length }} productos</span>
+        </div>
+      </div>
+    </header>
+
+    @if (products().length === 0) {
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Cargando productos...</p>
+      </div>
+    } @else if (filteredProducts().length === 0) {
+      <div class="no-results">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+        <button class="reset-filters-btn" (click)="clearAllFilters()">Limpiar filtros</button>
+      </div>
+    } @else {
+      <section class="products-grid">
+        @for (p of filteredProducts(); track p.id) {
+          <app-product-card [product]="p" (add)="agregar($event)"></app-product-card>
+        }
+      </section>
     }
-  </section>
-}
+  </div>
+</main>

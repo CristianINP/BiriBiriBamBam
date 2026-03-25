@@ -157,6 +157,56 @@
   color: #f87171;
 }
 
+/* Quantity Selector */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(74, 158, 255, 0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(74, 158, 255, 0.15);
+  margin-bottom: 12px;
+}
+
+.qty-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(74, 158, 255, 0.1);
+  color: var(--star-white);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-btn:hover {
+  background: var(--electric);
+  border-color: var(--electric);
+  color: var(--void);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+}
+
+.qty-btn:active {
+  transform: scale(0.95);
+}
+
+.qty-value {
+  min-width: 44px;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--star-white);
+  text-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
+}
+
 /* Botón con efecto */
 .add-btn {
   width: 100%;

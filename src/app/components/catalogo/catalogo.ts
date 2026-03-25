@@ -1,14 +1,15 @@
 import { Component, computed, signal, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/producto/producto';
 import { ProductsService } from '../../services/productos/productos';
 import { CarritoService } from '../../services/carrito/carrito/carrito';
 import { SearchService } from '../../services/search/search';
-import { ProductCard } from '../product-card/product-card/product-card';
+import { ProductCard, ProductAddEvent } from '../product-card/product-card/product-card';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [ProductCard],
+  imports: [ProductCard, FormsModule],
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
@@ -16,6 +17,10 @@ export class Catalogo implements OnInit {
   products = signal<Product[]>([]);
   allProducts = signal<Product[]>([]);
   selectedCategory = signal<string>('all');
+  minPrice = signal<number | null>(null);
+  maxPrice = signal<number | null>(null);
+  onlyInStock = signal(false);
+  sortOption = signal('name-asc');
   showModal = signal(false);
   modalProductName = signal('');
   
@@ -40,6 +45,38 @@ export class Catalogo implements OnInit {
     // Filter by category
     if (this.selectedCategory() !== 'all') {
       result = result.filter(p => p.category === this.selectedCategory());
+    }
+    
+    // Filter by price range
+    const min = this.minPrice();
+    const max = this.maxPrice();
+    if (min !== null) {
+      result = result.filter(p => p.price >= min);
+    }
+    if (max !== null) {
+      result = result.filter(p => p.price <= max);
+    }
+    
+    // Filter by stock
+    if (this.onlyInStock()) {
+      result = result.filter(p => p.inStock);
+    }
+    
+    // Sort results
+    const sort = this.sortOption();
+    switch (sort) {
+      case 'name-asc':
+        result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name-desc':
+        result = [...result].sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      case 'price-asc':
+        result = [...result].sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        result = [...result].sort((a, b) => b.price - a.price);
+        break;
     }
     
     return result;
@@ -67,9 +104,28 @@ export class Catalogo implements OnInit {
     this.selectedCategory.set(category);
   }
 
-  agregar(producto: Product) {
-    this.carritoService.agregar(producto);
-    this.modalProductName.set(producto.name);
+  getCategoryCount(category: string): number {
+    if (category === 'all') {
+      return this.allProducts().length;
+    }
+    return this.allProducts().filter(p => p.category === category).length;
+  }
+
+  clearAllFilters() {
+    this.selectedCategory.set('all');
+    this.minPrice.set(null);
+    this.maxPrice.set(null);
+    this.onlyInStock.set(false);
+    this.sortOption.set('name-asc');
+  }
+
+  agregar(event: ProductAddEvent) {
+    this.carritoService.agregar(event.product, event.quantity);
+    this.modalProductName.set(
+      event.quantity > 1 
+        ? `${event.quantity}x ${event.product.name}` 
+        : event.product.name
+    );
     this.showModal.set(true);
     setTimeout(() => this.showModal.set(false), 2500);
   }

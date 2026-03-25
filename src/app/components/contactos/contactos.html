@@ -1,0 +1,114 @@
+<div class="contact-page">
+  <app-navbar></app-navbar>
+  
+  <div class="page-header">
+    <h1>Contáctanos</h1>
+    <p>Estamos aquí para ayudarte. Contáctanos por cualquiera de los siguientes medios.</p>
+  </div>
+
+  <div class="contact-container">
+    <!-- Contact Info Cards -->
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3>Correo Electrónico</h3>
+        <p>contacto@lacasadelperfume.com</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </div>
+        <h3>Teléfono</h3>
+        <p>+52 (55) 1234-5678</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </div>
+        <h3>Dirección</h3>
+        <p>Av. Insurgentes Sur 1234<br>Col. Del Valle, CDMX</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h3>Horario</h3>
+        <p>Lun - Vie: 9:00 - 20:00<br>Sáb: 10:00 - 18:00</p>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form-section">
+      <h2>Envíanos un mensaje</h2>
+      <form class="contact-form" (submit)="onSubmit($event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nombre completo</label>
+            <input type="text" id="name" name="name" [(ngModel)]="formData.name" required placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" [(ngModel)]="formData.email" required placeholder="tu@correo.com">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Teléfono (opcional)</label>
+          <input type="tel" id="phone" name="phone" [(ngModel)]="formData.phone" placeholder="(55) 1234-5678">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Asunto</label>
+          <select id="subject" name="subject" [(ngModel)]="formData.subject" required>
+            <option value="">Selecciona una opción</option>
+            <option value="consulta">Consulta sobre productos</option>
+            <option value="pedido">Seguimiento de pedido</option>
+            <option value="queja">Queja o sugerencia</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Mensaje</label>
+          <textarea id="message" name="message" [(ngModel)]="formData.message" required rows="5" placeholder="¿En qué podemos ayudarte?"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          Enviar mensaje
+        </button>
+      </form>
+    </div>
+  </div>
+
+  @if (showSuccess()) {
+    <div class="success-toast">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      ¡Mensaje enviado exitosamente!
+    </div>
+  }
+
+  <app-footer></app-footer>
+</div>

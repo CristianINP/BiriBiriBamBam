@@ -43,8 +43,10 @@ export class CarritoService {
   // Impuestos (16%)
   impuestos = computed(() => this.subtotal() * 0.16);
 
-  agregar(producto: Product) {
-    this.productosSignal.update(lista => [...lista, producto]);
+  agregar(producto: Product, cantidad: number = 1) {
+    // Agregar el producto la cantidad de veces especificada
+    const nuevosProductos = Array(cantidad).fill(producto);
+    this.productosSignal.update(lista => [...lista, ...nuevosProductos]);
   }
 
   quitar(id: number) {

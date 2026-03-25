@@ -15,6 +15,14 @@
       </span>
     </div>
     
+    @if (product.inStock) {
+      <div class="quantity-selector">
+        <button class="qty-btn" (click)="decrementQuantity()">-</button>
+        <span class="qty-value">{{ quantity() }}</span>
+        <button class="qty-btn" (click)="incrementQuantity()">+</button>
+      </div>
+    }
+    
     <button class="add-btn" [disabled]="!product.inStock" (click)="onAdd()">
       {{ product.inStock ? 'Agregar al carrito' : 'No disponible' }}
     </button>

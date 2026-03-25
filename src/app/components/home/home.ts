@@ -139,4 +139,14 @@ export class Home implements OnInit, AfterViewInit {
   onNavigate() {
     window.scrollTo(0, 0);
   }
+
+  onSubscribe(event: Event) {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const email = form.querySelector('input[type="email"]') as HTMLInputElement;
+    if (email.value) {
+      alert(`¡Gracias por suscribirte! Te enviaremos novedades a: ${email.value}`);
+      email.value = '';
+    }
+  }
 }
