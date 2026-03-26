@@ -1,4 +1,4 @@
-import { Component, computed, signal, OnInit } from '@angular/core';
+import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/producto/producto';
 import { ProductsService } from '../../services/productos/productos';
@@ -23,7 +23,22 @@ export class Catalogo implements OnInit {
   sortOption = signal('name-asc');
   showModal = signal(false);
   modalProductName = signal('');
-  
+
+  private productsService = inject(ProductsService);
+  public carritoService = inject(CarritoService);
+  public searchService = inject(SearchService);
+
+  ngOnInit(): void {
+    this.productsService.getAll().subscribe({
+      next: (data: Product[]) => {
+        this.allProducts.set(data);
+        this.products.set(data);
+        console.log('Productos cargados:', data);
+      },
+      error: (err: Error) => console.error('Error cargando productos:', err),
+    });
+  }
+
   categories = computed(() => {
     const cats = new Set(this.allProducts().map(p => p.category));
     return ['all', ...Array.from(cats)];
@@ -83,22 +98,6 @@ export class Catalogo implements OnInit {
   });
 
   inStockCount = computed(() => this.filteredProducts().filter(p => p.inStock).length);
-
-  constructor(
-    private productsService: ProductsService,
-    public carritoService: CarritoService,
-    public searchService: SearchService
-  ) {}
-
-  ngOnInit() {
-    this.productsService.getAll().subscribe({
-      next: (data) => {
-        this.allProducts.set(data);
-        this.products.set(data);
-      },
-      error: (err) => console.error('Error cargando XML:', err),
-    });
-  }
 
   onCategoryChange(category: string) {
     this.selectedCategory.set(category);
