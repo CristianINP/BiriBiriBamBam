@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Chanel N°5",
+    "price": 2899.99,
+    "imageUrl": "https://perfumesmb.com.ec/wp-content/uploads/2020/06/chanel-no-5-edp.jpg",
+    "category": "Perfume femenino",
+    "description": "Perfume clásico y elegante con notas florales y atemporales.",
+    "inStock": true
+  },
+  {
+    "id": 2,
+    "name": "Dior Sauvage",
+    "price": 2599.50,
+    "imageUrl": "https://www.sephora.com.mx/on/demandware.static/-/Sites-masterCatalog_Sephora/es_MX/dwf31db7f3/images/hi-res/boletos/Roc%C3%ADo%20Mart%C3%ADnez/DIOR/ROUGE%20DIOR/3348901605366_X2.jpg",
+    "category": "Perfume masculino",
+    "description": "Fragancia fresca y potente con carácter intenso y moderno.",
+    "inStock": true
+  },
+  {
+    "id": 3,
+    "name": "Carolina Herrera 212",
+    "price": 1999.00,
+    "imageUrl": "https://fimgs.net/images/secundar/o.34632.jpg",
+    "category": "Perfume unisex",
+    "description": "Aroma urbano y versátil ideal para cualquier ocasión.",
+    "inStock": true
+  },
+  {
+    "id": 4,
+    "name": "Versace Eros",
+    "price": 2399.00,
+    "imageUrl": "https://m.media-amazon.com/images/I/61j1jrAGuiL._AC_UF1000,1000_QL80_.jpg",
+    "category": "Perfume masculino",
+    "description": "Fragancia intensa y seductora con notas orientales y frescas.",
+    "inStock": true
+  },
+  {
+    "id": 5,
+    "name": "Good Girl",
+    "price": 2199.00,
+    "imageUrl": "https://www.sephora.com/productimages/sku/s1960707-av-20-zoom.jpg",
+    "category": "Perfume femenino",
+    "description": "Perfume sofisticado y femenino con un toque dulce y elegante.",
+    "inStock": true
+  }
+]
