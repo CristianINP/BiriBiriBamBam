@@ -6,6 +6,7 @@ import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
 import { Catalogo } from '../catalogo/catalogo';
 import { CarritoService } from '../../services/carrito/carrito/carrito';
+import { SearchService } from '../../services/search/search';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class Home implements OnInit, AfterViewInit {
 
   constructor(
     public carritoService: CarritoService,
-    private router: Router
+    private router: Router,
+    private searchService: SearchService
   ) {}
 
   ngOnInit() {
@@ -147,6 +149,27 @@ export class Home implements OnInit, AfterViewInit {
     if (email.value) {
       alert(`¡Gracias por suscribirte! Te enviaremos novedades a: ${email.value}`);
       email.value = '';
+    }
+  }
+
+  filterByCategory(category: string) {
+    this.searchService.setCategoryFilter(category);
+  }
+
+  filterByCategoryAndScroll(event: Event, category: string) {
+    event.preventDefault();
+    this.searchService.setCategoryFilter(category);
+    const catalogSection = document.getElementById('catalogo-section');
+    if (catalogSection) {
+      catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  scrollToCatalog(event: Event) {
+    event.preventDefault();
+    const catalogSection = document.getElementById('catalogo-section');
+    if (catalogSection) {
+      catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }

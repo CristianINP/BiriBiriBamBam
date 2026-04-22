@@ -46,26 +46,27 @@
     <!-- Price Range -->
     <div class="filter-section">
       <h3 class="filter-title">Rango de Precio</h3>
-      <div class="price-inputs">
-        <div class="price-input-group">
-          <label>Min</label>
+      <div class="price-range-container">
+        <div class="price-labels">
+          <span class="price-value">${{ minPrice() || 0 }}</span>
+          <span class="price-value">${{ maxPrice() || 5000 }}</span>
+        </div>
+        <div class="range-slider">
           <input 
-            type="number" 
+            type="range" 
+            class="range-min"
+            min="0" 
+            max="5000" 
             [ngModel]="minPrice()" 
             (ngModelChange)="minPrice.set($event)"
-            min="0" 
-            placeholder="$0"
           />
-        </div>
-        <span class="price-separator">-</span>
-        <div class="price-input-group">
-          <label>Max</label>
           <input 
-            type="number" 
+            type="range" 
+            class="range-max"
+            min="0" 
+            max="5000" 
             [ngModel]="maxPrice()" 
             (ngModelChange)="maxPrice.set($event)"
-            min="0" 
-            placeholder="$9999"
           />
         </div>
       </div>

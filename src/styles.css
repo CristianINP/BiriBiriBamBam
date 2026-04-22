@@ -152,7 +152,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 380px;
   margin: 20px;
   animation: slideUp 0.3s ease;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--gold), 0 0 30px rgba(201, 168, 76, 0.15);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--electric), 0 0 30px rgba(74, 158, 255, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -164,19 +164,19 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  background: linear-gradient(90deg, var(--electric), #4a9eff, var(--electric));
 }
 
 .modal-icon {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  background: linear-gradient(135deg, var(--electric) 0%, #4a9eff 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  box-shadow: 0 8px 24px rgba(201, 162, 39, 0.5);
+  box-shadow: 0 8px 24px rgba(74, 158, 255, 0.5);
   animation: scaleIn 0.4s ease;
 }
 

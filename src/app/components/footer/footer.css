@@ -11,8 +11,29 @@
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
+  grid-template-columns: 1.8fr 1.6fr 1fr;
+  gap: 100px;
+}
+
+.brand-section h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.brand-tagline {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.brand-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0;
 }
 
 .footer-section h4 {
@@ -39,6 +60,7 @@
   color: var(--text-dim);
   font-size: 0.9rem;
   transition: var(--transition);
+  cursor: pointer;
 }
 
 .footer-section a:hover {

@@ -31,13 +31,10 @@ export class Contactos {
 
   onSubmit(event: Event) {
     event.preventDefault();
-    // Simulate form submission
     console.log('Form submitted:', this.formData);
     
-    // Show success message
     this.showSuccess.set(true);
     
-    // Reset form
     this.formData = {
       name: '',
       email: '',
@@ -46,7 +43,6 @@ export class Contactos {
       message: ''
     };
     
-    // Hide success message after 3 seconds
     setTimeout(() => this.showSuccess.set(false), 3000);
   }
 }

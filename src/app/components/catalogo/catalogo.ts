@@ -47,6 +47,16 @@ export class Catalogo implements OnInit {
   filteredProducts = computed(() => {
     let result = this.allProducts();
     
+    // Check for category filter from home page navigation
+    const categoryFilter = this.searchService.categoryFilter();
+    if (categoryFilter) {
+      result = result.filter(p => p.category === categoryFilter);
+      this.selectedCategory.set(categoryFilter);
+      this.searchService.clearCategoryFilter();
+    } else if (this.selectedCategory() === 'all' && !categoryFilter) {
+      // Keep selectedCategory if it was manually changed
+    }
+    
     // Filter by search query from service
     const query = this.searchService.search().toLowerCase();
     if (query) {

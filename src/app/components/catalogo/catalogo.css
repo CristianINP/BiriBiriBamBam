@@ -25,6 +25,8 @@ app-catalogo {
   height: fit-content;
   position: sticky;
   top: 100px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
   backdrop-filter: blur(10px);
 }
 
@@ -127,10 +129,89 @@ app-catalogo {
 }
 
 /* Price Inputs */
-.price-inputs {
+.price-range-container {
+  padding: 10px 0;
+}
+
+.price-labels {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.price-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--electric);
+  background: rgba(74, 158, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.range-slider {
+  position: relative;
+  height: 24px;
+}
+
+.range-slider input[type="range"] {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.range-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.range-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--electric);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: all;
+  margin-top: -7px;
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.range-slider input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.range-slider input[type="range"]::-moz-range-track {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.range-slider input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--electric);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: all;
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.5);
+}
+
+.range-min {
+  z-index: 2;
+}
+
+.range-max {
+  z-index: 1;
 }
 
 .price-input-group {
@@ -153,6 +234,12 @@ app-catalogo {
   color: var(--star-white);
   font-size: 0.9rem;
   transition: all 0.2s ease;
+}
+
+.price-input-group input:focus {
+  outline: none;
+  border-color: var(--electric);
+  background: rgba(74, 158, 255, 0.05);
 }
 
 .price-input-group input:focus {
@@ -256,6 +343,7 @@ app-catalogo {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  align-items: stretch;
 }
 
 /* Loading */

@@ -27,4 +27,17 @@ export class Navbar {
     this.searchQuery.set('');
     this.searchService.setSearch('');
   }
+
+  goHome() {
+    window.location.href = '/';
+  }
+
+  goToCatalog() {
+    const catalog = document.getElementById('catalogo-section');
+    if (catalog) {
+      catalog.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/#catalogo-section';
+    }
+  }
 }

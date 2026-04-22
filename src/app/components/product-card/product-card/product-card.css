@@ -6,6 +6,9 @@
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border: 1px solid var(--border-subtle);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Efecto de brillo en hover */
@@ -99,6 +102,9 @@
 .product-info {
   padding: 20px;
   background: var(--card-bg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-name {
@@ -130,6 +136,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  margin-top: auto;
 }
 
 .price {

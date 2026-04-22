@@ -3,14 +3,58 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(8, 16, 28, 0.85);
+  background: var(--void);
   border-bottom: 1px solid var(--border-subtle);
-  backdrop-filter: blur(20px) saturate(1.5);
   transition: box-shadow 0.3s ease;
 }
 
 .navbar:hover {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(74, 158, 255, 0.1);
+}
+
+/* Top bar */
+.navbar-top {
+  background: linear-gradient(90deg, rgba(74, 158, 255, 0.06) 0%, rgba(74, 158, 255, 0.1) 50%, rgba(74, 158, 255, 0.06) 100%);
+  border-bottom: 1px solid rgba(74, 158, 255, 0.15);
+}
+
+.top-bar {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 6px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.75rem;
+  color: var(--text);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.top-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.top-links a {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.top-links a:hover {
+  color: var(--gold-light);
+}
+
+.top-links .divider {
+  color: var(--border-subtle);
+  font-size: 0.7rem;
 }
 
 .navbar-container {
@@ -74,6 +118,7 @@
   font-size: 0.85rem;
   font-weight: 500;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .nav-link svg {
