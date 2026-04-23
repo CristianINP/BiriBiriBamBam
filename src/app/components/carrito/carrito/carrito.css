@@ -395,6 +395,34 @@
   transform: translateY(-2px);
 }
 
+.btn-paypal {
+  background: linear-gradient(135deg, #003087 0%, #009cde 100%);
+  border: 1px solid #009cde;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-paypal:hover {
+  background: linear-gradient(135deg, #002670 0%, #0080b8 100%);
+  box-shadow: 0 8px 20px rgba(0, 156, 222, 0.35);
+  transform: translateY(-2px);
+}
+
+/* PayPal section */
+.paypal-section {
+  margin-top: 16px;
+}
+
+.paypal-mensaje {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--silver);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .cart-page {

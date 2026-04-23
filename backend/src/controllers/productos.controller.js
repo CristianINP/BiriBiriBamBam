@@ -1,6 +1,6 @@
-const db = require('../config/db');
+import db from '../config/db.js';
 
-const getProductos = (req, res) => {
+export const getProductos = (req, res) => {
   const query = 'SELECT * FROM productos';
   db.query(query, (error, resultados) => {
     if (error) {
@@ -9,8 +9,4 @@ const getProductos = (req, res) => {
     }
     res.json(resultados);
   });
-};
-
-module.exports = {
-  getProductos
 };
