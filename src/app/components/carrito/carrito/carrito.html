@@ -79,6 +79,13 @@
           Generar recibo
         </button>
       </div>
+
+      <div class="paypal-section">
+        <div #paypalButtonContainer></div>
+        @if (mensaje) {
+          <p class="paypal-mensaje">{{ mensaje }}</p>
+        }
+      </div>
     }
   </div>
 </main>

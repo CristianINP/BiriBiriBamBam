@@ -1,1 +1,25 @@
-<p>checkout works!</p>
+<h2>Checkout</h2>
+
+@if (carrito().length === 0) {
+  <p>Tu carrito está vacío.</p>
+  <a routerLink="/">Ir al catálogo</a>
+} @else {
+  <div style="border:1px solid #ccc; border-radius:12px; padding:16px;">
+    <h3>Resumen del pedido</h3>
+
+    @for (producto of carrito(); track producto.id) {
+      <p>
+        {{ producto.nombre }} -
+        {{ producto.cantidad }} x
+        {{ producto.precio | currency:'MXN' }}
+      </p>
+    }
+
+    <hr>
+    <p><strong>Total: {{ total() | currency:'MXN' }}</strong></p>
+
+    <div #paypalButtonContainer></div>
+
+    <p>{{ mensaje }}</p>
+  </div>
+}

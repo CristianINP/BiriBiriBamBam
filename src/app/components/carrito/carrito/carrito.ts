@@ -1,10 +1,15 @@
-import { Component, computed, inject, AfterViewInit } from '@angular/core';
+import { Component, computed, inject, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { CarritoService } from '../../../services/carrito/carrito/carrito';
+import { PaypalService } from '../../../services/paypal/paypal';
 import { Product } from '../../../models/producto/producto';
 import { Navbar } from '../../navbar/navbar';
 import { Footer } from '../../footer/footer';
+import { environment } from '../../../../environments/environment';
+
+declare const paypal: any;
 
 @Component({
   selector: 'app-carrito',
@@ -14,19 +19,87 @@ import { Footer } from '../../footer/footer';
   styleUrl: './carrito.css',
 })
 export class CarritoComponent implements AfterViewInit {
+  @ViewChild('paypalButtonContainer')
+  paypalButtonContainer!: ElementRef<HTMLDivElement>;
+
   private carritoService = inject(CarritoService);
-  
+  private paypalService = inject(PaypalService);
+
   groupedItems = this.carritoService.groupedItems;
   total = computed(() => this.carritoService.total());
   subtotal = computed(() => this.carritoService.subtotal());
   impuestos = computed(() => this.carritoService.impuestos());
   totalConImpuestos = computed(() => this.carritoService.totalConImpuestos());
 
+  mensaje = '';
+
   ngAfterViewInit() {
-    // Initialize starfield after view is loaded (only in browser)
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       setTimeout(() => this.initStarfield(), 100);
+      this.loadPaypalSdk().then(() => this.renderPaypalButton());
     }
+  }
+
+  private loadPaypalSdk(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (typeof paypal !== 'undefined') { resolve(); return; }
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${environment.paypalClientId}&currency=MXN`;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('No se pudo cargar el SDK de PayPal'));
+      document.head.appendChild(script);
+    });
+  }
+
+  private renderPaypalButton(): void {
+    if (this.groupedItems().length === 0) return;
+    if (typeof paypal === 'undefined') {
+      this.mensaje = 'No se cargó el SDK de PayPal.';
+      return;
+    }
+    if (!this.paypalButtonContainer) return;
+
+    this.paypalButtonContainer.nativeElement.innerHTML = '';
+
+    paypal.Buttons({
+      createOrder: async () => {
+        try {
+          const items = this.carritoService.carrito();
+          const response = await firstValueFrom(
+            this.paypalService.crearOrden({ items, total: this.totalConImpuestos() })
+          );
+          return response.id;
+        } catch (error) {
+          console.error('Error al crear la orden:', error);
+          this.mensaje = 'No se pudo crear la orden.';
+          throw error;
+        }
+      },
+
+      onApprove: async (data: any) => {
+        try {
+          const capture = await firstValueFrom(
+            this.paypalService.capturarOrden(data.orderID)
+          );
+          console.log('Pago capturado:', capture);
+          this.mensaje = 'Pago realizado correctamente.';
+          this.carritoService.vaciar();
+          this.paypalButtonContainer.nativeElement.innerHTML = '';
+        } catch (error) {
+          console.error('Error al capturar el pago:', error);
+          this.mensaje = 'Ocurrió un error al capturar el pago.';
+        }
+      },
+
+      onCancel: () => {
+        this.mensaje = 'Pago cancelado.';
+      },
+
+      onError: (error: any) => {
+        console.error('Error PayPal:', error);
+        this.mensaje = 'Error en el proceso de PayPal.';
+      }
+    }).render(this.paypalButtonContainer.nativeElement);
   }
 
   private initStarfield() {

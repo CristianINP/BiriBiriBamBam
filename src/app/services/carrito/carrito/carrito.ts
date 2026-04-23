@@ -40,6 +40,17 @@ export class CarritoService {
   // Total con impuestos (16% IVA)
   totalConImpuestos = computed(() => this.subtotal() * 1.16);
 
+  // Formato compatible con checkout de PayPal
+  carrito = computed(() =>
+    this.groupedItems().map(item => ({
+      id: item.product.id,
+      nombre: item.product.name,
+      cantidad: item.quantity,
+      precio: item.product.price
+    }))
+  );
+  total = this.totalConImpuestos;
+
   // Impuestos (16%)
   impuestos = computed(() => this.subtotal() * 0.16);
 
@@ -67,10 +78,6 @@ export class CarritoService {
 
   vaciar() {
     this.productosSignal.set([]);
-  }
-
-  total(): number {
-    return this.subtotal();
   }
 
   exportarXML() {
