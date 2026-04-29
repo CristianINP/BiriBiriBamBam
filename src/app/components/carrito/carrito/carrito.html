@@ -9,84 +9,129 @@
 
 <main class="cart-page">
   <div class="cart-container">
-    <!-- Botón de regresar -->
-    <a routerLink="/" class="back-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
-      Volver al catálogo
-    </a>
 
-    <h1 class="cart-title">Tu Carrito</h1>
-
-    @if (groupedItems().length === 0) {
-      <div class="empty-cart">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <p>Tu carrito está vacío</p>
-        <a routerLink="/" class="continue-btn">Ver catálogo</a>
+    <!-- ✅ PANTALLA DE PAGO EXITOSO -->
+    @if (pagoExitoso()) {
+      <div class="success-screen">
+        <div class="success-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+        </div>
+        <h1 class="success-title">¡Gracias por tu compra!</h1>
+        <p class="success-subtitle">Tu pago fue procesado exitosamente.</p>
+        <div class="success-folio">
+          <span class="folio-label">Folio:</span>
+          <span class="folio-value">{{ folioPago() }}</span>
+        </div>
+        <p class="success-xml-note">
+        <br>Tu recibo XML se ha descargado automáticamente.<br>
+        </p>
+        <a routerLink="/" class="continue-btn">Seguir comprando</a>
       </div>
     } @else {
-      <ul class="cart-list">
-        @for (item of groupedItems(); track item.product.id) {
-          <li class="cart-item">
-            <div class="item-info">
-              <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image"/>
-              <div class="item-details">
-                <h3>{{ item.product.name }}</h3>
-                <span class="item-category">{{ item.product.category }}</span>
+
+      <!-- Botón de regresar -->
+      <a routerLink="/" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver al catálogo
+      </a>
+
+      <h1 class="cart-title">Tu Carrito</h1>
+
+      @if (groupedItems().length === 0) {
+        <div class="empty-cart">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <p>Tu carrito está vacío</p>
+          <a routerLink="/" class="continue-btn">Ver catálogo</a>
+        </div>
+      } @else {
+        <ul class="cart-list">
+          @for (item of groupedItems(); track item.product.id) {
+            <li class="cart-item">
+              <div class="item-info">
+                <img [src]="item.product.imageUrl"
+                     [alt]="item.product.name"
+                     class="item-image"
+                     (error)="$any($event.target).src='assets/placeholder.png'" />
+                <div class="item-details">
+                  <h3>{{ item.product.name }}</h3>
+                  <span class="item-category">{{ item.product.category }}</span>
+                  <span class="item-desc">{{ item.product.description }}</span>
+                </div>
               </div>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-controls">
-                <button class="qty-btn minus" (click)="quitar(item.product.id)">−</button>
-                <span class="qty">{{ item.quantity }}</span>
-                <button class="qty-btn plus" (click)="agregar(item.product)">+</button>
+              <div class="item-actions">
+                <div class="quantity-controls">
+                  <button type="button" class="qty-btn minus"
+                          (click)="quitar(item.product.id)">−</button>
+                  <span class="qty">{{ item.quantity }}</span>
+                  <button type="button" class="qty-btn plus"
+                          (click)="agregar(item.product)">+</button>
+                </div>
+                <span class="item-price">
+                  {{ item.product.price * item.quantity | currency:'MXN' }}
+                </span>
+                <button type="button" class="remove-btn"
+                        (click)="removeAll(item.product.id)">
+                  Eliminar
+                </button>
               </div>
-              <span class="item-price">{{ item.product.price * item.quantity | currency:'MXN' }}</span>
-              <button class="remove-btn" (click)="removeAll(item.product.id)">
-                Eliminar
-              </button>
+            </li>
+          }
+        </ul>
+
+        <div class="cart-totals">
+          <div class="subtotal-row">
+            <span class="total-label">Subtotal (sin impuestos)</span>
+            <span class="total-amount">{{ subtotal() | currency:'MXN' }}</span>
+          </div>
+          <div class="taxes-row">
+            <span class="total-label">Impuestos (16% IVA)</span>
+            <span class="total-amount">{{ impuestos() | currency:'MXN' }}</span>
+          </div>
+          <div class="total-final">
+            <span class="total-label">Total</span>
+            <span class="total-amount">{{ totalConImpuestos() | currency:'MXN' }}</span>
+          </div>
+        </div>
+
+        <div class="cart-actions">
+          <button type="button" class="btn btn-danger" (click)="vaciar()">
+            Vaciar carrito
+          </button>
+          <button type="button" class="btn btn-primary" (click)="exportarXML()">
+            Generar recibo
+          </button>
+        </div>
+
+        <div class="paypal-container">
+          @if (cargandoPaypal()) {
+            <div class="paypal-loading">
+              <span>Cargando métodos de pago...</span>
             </div>
-          </li>
-        }
-      </ul>
-
-      <div class="cart-totals">
-        <div class="subtotal-row">
-          <span class="total-label">Subtotal (sin impuestos)</span>
-          <span class="total-amount">{{ subtotal() | currency:'MXN' }}</span>
+          }
+          <div #paypalButtonContainer></div>
+          @if (mensaje()) {
+            <p class="paypal-mensaje">{{ mensaje() }}</p>
+          }
         </div>
-        <div class="taxes-row">
-          <span class="total-label">Impuestos (16% IVA)</span>
-          <span class="total-amount">{{ impuestos() | currency:'MXN' }}</span>
-        </div>
-        <div class="total-final">
-          <span class="total-label">Total</span>
-          <span class="total-amount">{{ totalConImpuestos() | currency:'MXN' }}</span>
-        </div>
-      </div>
-
-      <div class="cart-actions">
-        <button class="btn btn-danger" (click)="vaciar()">
-          Vaciar carrito
-        </button>
-        <button class="btn btn-primary" (click)="exportarXML()">
-          Generar recibo
-        </button>
-      </div>
-
-      <div #paypalButtonContainer class="paypal-container">
-        <div #paypalButtonContainer></div>
-        @if (mensaje) {
-          <p class="paypal-mensaje">{{ mensaje }}</p>
-        }
-      </div>
+      }
     }
+
   </div>
 </main>
 
