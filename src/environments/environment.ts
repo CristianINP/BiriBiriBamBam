@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  paypalClientId: 'AQCVUzVDX2UaSQpHBWZGygrLHh47UZgLC8CcB9wc-gL6OPIZQnvA5h60bok4eKA_Bv507rnihJ-FFARy'
+  paypalClientId: 'AZHFYM8GyV0M7XjOuUjegpG4hr4OqfInA5lN-vOMHIFyqrP2hELYHsFwVr2nIf6j1A9ER_ESIrV48a3F'
 };

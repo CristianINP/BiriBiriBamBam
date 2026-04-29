@@ -80,12 +80,10 @@
         </button>
       </div>
 
-      <div #paypalButtonContainer class="paypal-container">
-        <div #paypalButtonContainer></div>
-        @if (mensaje) {
-          <p class="paypal-mensaje">{{ mensaje }}</p>
-        }
-      </div>
+      @if (mensaje) {
+        <p class="paypal-mensaje">{{ mensaje }}</p>
+      }
+      <div #paypalButtonContainer class="paypal-container"></div>
     }
   </div>
 </main>

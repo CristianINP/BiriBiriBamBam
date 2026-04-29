@@ -35,7 +35,12 @@ export class CarritoService {
   itemCount = computed(() => this.productosSignal().length);
 
   // Subtotal (sin impuestos)
-  subtotal = computed(() => this.productosSignal().reduce((acc, p) => acc + p.price, 0));
+  subtotal = computed(() =>
+    this.productosSignal().reduce((acc, p) => {
+      const price = typeof p.price === 'string' ? parseFloat(p.price) : p.price;
+      return acc + (isNaN(price) ? 0 : price);
+    }, 0)
+  );
 
   // Total con impuestos (16% IVA)
   totalConImpuestos = computed(() => this.subtotal() * 1.16);
@@ -46,7 +51,7 @@ export class CarritoService {
       id: item.product.id,
       nombre: item.product.name,
       cantidad: item.quantity,
-      precio: item.product.price
+      precio: typeof item.product.price === 'string' ? parseFloat(item.product.price) : item.product.price
     }))
   );
   total = this.totalConImpuestos;

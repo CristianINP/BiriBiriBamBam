@@ -168,22 +168,58 @@ export class CarritoComponent implements AfterViewInit {
   }
 
   agregar(producto: Product) {
-    this.carritoService.agregar(producto);
+    try {
+      this.carritoService.agregar(producto);
+      console.log('Producto agregado:', producto.name);
+    } catch (error) {
+      console.error('Error al agregar producto:', error);
+      this.mensaje = 'Error al agregar el producto.';
+    }
   }
 
   quitar(id: number) {
-    this.carritoService.quitar(id);
+    try {
+      this.carritoService.quitar(id);
+      console.log('Producto removido:', id);
+    } catch (error) {
+      console.error('Error al quitar producto:', error);
+      this.mensaje = 'Error al quitar el producto.';
+    }
   }
 
   removeAll(id: number) {
-    this.carritoService.removeAll(id);
+    try {
+      this.carritoService.removeAll(id);
+      console.log('Todos los productos removidos:', id);
+    } catch (error) {
+      console.error('Error al eliminar producto:', error);
+      this.mensaje = 'Error al eliminar el producto.';
+    }
   }
 
   vaciar() {
-    this.carritoService.vaciar();
+    try {
+      this.carritoService.vaciar();
+      this.mensaje = '';
+      console.log('Carrito vaciado');
+    } catch (error) {
+      console.error('Error al vaciar carrito:', error);
+      this.mensaje = 'Error al vaciar el carrito.';
+    }
   }
 
   exportarXML() {
-    this.carritoService.exportarXML();
+    try {
+      if (this.groupedItems().length === 0) {
+        this.mensaje = 'El carrito está vacío.';
+        return;
+      }
+      this.carritoService.exportarXML();
+      this.mensaje = 'Recibo descargado correctamente.';
+      setTimeout(() => { this.mensaje = ''; }, 3000);
+    } catch (error) {
+      console.error('Error al generar recibo:', error);
+      this.mensaje = 'Error al generar el recibo.';
+    }
   }
 }
