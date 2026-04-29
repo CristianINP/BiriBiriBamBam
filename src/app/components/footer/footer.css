@@ -19,7 +19,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--gold-light);
+  color: var(--electric);
   margin-bottom: 8px;
 }
 
@@ -34,6 +34,19 @@
   color: var(--text-dim);
   line-height: 1.6;
   margin: 0;
+}
+
+.footer-section {
+  padding: 24px;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.3s ease;
+}
+
+.footer-section:hover {
+  border-color: var(--electric);
+  box-shadow: 0 8px 24px rgba(74, 158, 255, 0.1);
 }
 
 .footer-section h4 {
@@ -96,9 +109,15 @@
   max-width: 1400px;
   margin: 40px auto 0;
   padding: 24px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--card-bg);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
+  transition: all 0.3s ease;
+}
+
+.privacy-notice:hover {
+  border-color: var(--electric);
+  box-shadow: 0 8px 24px rgba(74, 158, 255, 0.1);
 }
 
 .privacy-content h4 {

@@ -142,12 +142,12 @@
 .price {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--gold-light);
+  color: var(--electric);
   transition: all 0.3s ease;
 }
 
 .product-card:hover .price {
-  color: var(--gold);
+  color: var(--aurora);
   transform: scale(1.05);
 }
 

@@ -21,6 +21,7 @@ export class Navbar {
 
   onSearch() {
     this.searchService.setSearch(this.searchQuery());
+    this.goToCatalog();
   }
 
   clearSearch() {

@@ -62,6 +62,9 @@ export class CarritoComponent implements AfterViewInit {
     this.paypalButtonContainer.nativeElement.innerHTML = '';
 
     paypal.Buttons({
+      style: {
+        size: 'large'
+      },
       createOrder: async () => {
         try {
           const items = this.carritoService.carrito();

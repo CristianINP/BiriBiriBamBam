@@ -49,7 +49,7 @@
 }
 
 .top-links a:hover {
-  color: var(--gold-light);
+  color: var(--electric);
 }
 
 .top-links .divider {
@@ -82,7 +82,7 @@
 }
 
 .logo:hover .logo-icon {
-  color: var(--gold-light);
+  color: var(--electric);
   transform: scale(1.1);
 }
 
@@ -96,8 +96,8 @@
 }
 
 .logo:hover .logo-text {
-  color: var(--gold-light);
-  text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+  color: var(--electric);
+  text-shadow: 0 0 20px rgba(74, 158, 255, 0.4);
 }
 
 /* Navigation Links */
@@ -237,23 +237,7 @@
   transform: scale(1.05);
 }
 
-.cart-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: 10px;
-  background: var(--error);
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
-}
+
 
 /* Responsive */
 @media (max-width: 1024px) {

@@ -55,6 +55,14 @@ export class Checkout implements AfterViewInit {
     this.paypalButtonContainer.nativeElement.innerHTML = '';
 
     paypal.Buttons({
+      style: {
+        layout: 'horizontal',
+        height: 55,
+        color: 'gold',
+        shape: 'rect',
+        label: 'paypal'
+      },
+
       createOrder: async () => {
         try {
           const response = await firstValueFrom(
