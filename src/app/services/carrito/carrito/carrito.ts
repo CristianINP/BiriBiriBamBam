@@ -62,7 +62,6 @@ export class CarritoService {
       precio: Number(p.price)
     }));
   }
-  total = this.totalConImpuestos;
 
   // Impuestos (16%)
   impuestos = computed(() => this.subtotal() * 0.16);
@@ -109,7 +108,7 @@ export class CarritoService {
     xml += `  <fecha>${fecha}</fecha>\n`;
     xml += `  <productos>\n`;
 
-    for (const p of productos) {
+    for (const { product: p } of items) {
       xml += `  <producto>\n`;
       xml += `    <id>${p.id}</id>\n`;
       xml += `    <nombre>${this.escapeXml(p.name)}</nombre>\n`;

@@ -1,5 +1,5 @@
-import { Component, computed, inject, AfterViewInit, ElementRef, ViewChild, signal } from '@angular/core';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, computed, inject, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal, NgZone, PLATFORM_ID } from '@angular/core';
+import { CurrencyPipe, DatePipe, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { CarritoService } from '../../../services/carrito/carrito/carrito';
@@ -25,19 +25,29 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
   paypalButtonContainer!: ElementRef<HTMLDivElement>;
 
   private carritoService = inject(CarritoService);
-  private paypalService = inject(PaypalService);
-  private ticketService = inject(TicketService);
-  private userService = inject(UserService);
+  private paypalService  = inject(PaypalService);
+  private ticketService  = inject(TicketService);
+  private userService    = inject(UserService);
+  private zone           = inject(NgZone);
+  private platformId     = inject(PLATFORM_ID);
 
   groupedItems      = this.carritoService.groupedItems;
   subtotal          = computed(() => this.carritoService.subtotal());
   impuestos         = computed(() => this.carritoService.impuestos());
   totalConImpuestos = computed(() => this.carritoService.totalConImpuestos());
+  total             = computed(() => this.carritoService.totalConImpuestos());
 
-  mensaje = signal('');
+  mensaje        = signal('');
   ticketGenerado = signal<any>(null);
-  mostrarTicket = signal(false);
+  mostrarTicket  = signal(false);
   itemsComprados = signal<{ id: number; nombre: string; cantidad: number; precio: number }[]>([]);
+  cargandoPaypal = signal(false);
+  pagoExitoso    = signal(false);
+
+  private paypalButtonActive = false;
+  private renderTimeout: any;
+  private watchInterval: any;
+  private lastItemCount      = -1;
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -47,7 +57,6 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
     this.cargandoPaypal.set(true);
     this.loadPaypalSdk()
       .then(() => {
-        this.sdkCargado = true;
         this.cargandoPaypal.set(false);
         this.renderPaypalButton();
         // Arrancar el watcher de cambios en el carrito

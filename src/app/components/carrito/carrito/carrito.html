@@ -74,7 +74,8 @@
                   Eliminar
                 </button>
               </div>
-            </li>
+            </div>
+          </li>
           }
         </ul>
 
@@ -97,9 +98,6 @@
           <button type="button" class="btn btn-danger" (click)="vaciar()">
             Vaciar carrito
           </button>
-          <button type="button" class="btn btn-primary" (click)="exportarXML()">
-            Generar recibo
-          </button>
         </div>
 
         <div class="paypal-container">
@@ -113,27 +111,6 @@
             <p class="paypal-mensaje">{{ mensaje() }}</p>
           }
         </div>
-        <div class="taxes-row">
-          <span class="total-label">Impuestos (16% IVA)</span>
-          <span class="total-amount">{{ impuestos() | currency:'MXN' }}</span>
-        </div>
-        <div class="total-final">
-          <span class="total-label">Total</span>
-          <span class="total-amount">{{ totalConImpuestos() | currency:'MXN' }}</span>
-        </div>
-      </div>
-
-      <div class="cart-actions">
-        <button class="btn btn-danger" (click)="vaciar()">
-          Vaciar carrito
-        </button>
-      </div>
-
-      <div #paypalButtonContainer class="paypal-container">
-        @if (mensaje()) {
-          <p class="paypal-mensaje">{{ mensaje() }}</p>
-        }
-      </div>
     }
 
   </div>
