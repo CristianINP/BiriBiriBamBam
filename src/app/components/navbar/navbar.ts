@@ -1,8 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CarritoService } from '../../services/carrito/carrito/carrito';
 import { SearchService } from '../../services/search/search';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user/user';
+import { User } from '../../services/user/user';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +18,13 @@ export class Navbar {
 
   constructor(
     public carritoService: CarritoService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private userService: UserService
   ) {}
+
+  get usuario(): User | null {
+    return this.userService.usuario();
+  }
 
   onSearch() {
     this.searchService.setSearch(this.searchQuery());
@@ -41,4 +48,10 @@ export class Navbar {
       window.location.href = '/#catalogo-section';
     }
   }
+
+  logout() {
+    this.userService.clearUsuario();
+    window.location.href = '/';
+  }
 }
+

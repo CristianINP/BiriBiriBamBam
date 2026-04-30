@@ -9,18 +9,36 @@
 
 <main class="cart-page">
   <div class="cart-container">
-    <!-- Botón de regresar -->
-    <a routerLink="/" class="back-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
-      Volver al catálogo
-    </a>
 
     <h1 class="cart-title">Tu Carrito</h1>
 
-    @if (groupedItems().length === 0) {
+    @if (mostrarTicket()) {
+      <div class="ticket-confirmado">
+        <div class="ticket-success-icon">✅</div>
+        <h3>¡Pago completado!</h3>
+        <p>Tu compra ha sido registrada exitosamente.</p>
+
+        @if (ticketGenerado()) {
+          <div class="ticket-resumen">
+            <p><strong>Ticket #:</strong> {{ ticketGenerado().id_ticket }}</p>
+            <p><strong>Orden PayPal:</strong> {{ ticketGenerado().orderId }}</p>
+            <p><strong>Fecha:</strong> {{ ticketGenerado().fecha_compra | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Subtotal:</strong> {{ ticketGenerado().subtotal | currency:'MXN' }}</p>
+            <p><strong>Impuestos:</strong> {{ ticketGenerado().impuestos | currency:'MXN' }}</p>
+            <p class="ticket-total"><strong>Total:</strong> {{ ticketGenerado().total | currency:'MXN' }}</p>
+          </div>
+        }
+
+        <div class="ticket-acciones">
+          <button (click)="descargarXML()" class="btn-xml">
+            📄 Descargar recibo XML
+          </button>
+          <button (click)="cerrarTicket()" class="btn-cerrar-ticket">
+            Realizar otra compra
+          </button>
+        </div>
+      </div>
+    } @else if (groupedItems().length === 0) {
       <div class="empty-cart">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -35,58 +53,66 @@
         @for (item of groupedItems(); track item.product.id) {
           <li class="cart-item">
             <div class="item-info">
-              <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image"/>
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image" (error)="$any($event.target).src='https://placehold.co/72x72/0d1b2e/4a9eff?text=🧴'"/>
               <div class="item-details">
                 <h3>{{ item.product.name }}</h3>
                 <span class="item-category">{{ item.product.category }}</span>
               </div>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-controls">
-                <button class="qty-btn minus" (click)="quitar(item.product.id)">−</button>
-                <span class="qty">{{ item.quantity }}</span>
-                <button class="qty-btn plus" (click)="agregar(item.product)">+</button>
+              <div class="item-actions">
+                <div class="quantity-controls">
+                  <button type="button" class="qty-btn minus"
+                          (click)="quitar(item.product.id)">−</button>
+                  <span class="qty">{{ item.quantity }}</span>
+                  <button type="button" class="qty-btn plus"
+                          (click)="agregar(item.product)">+</button>
+                </div>
+                <span class="item-price">
+                  {{ item.product.price * item.quantity | currency:'MXN' }}
+                </span>
+                <button type="button" class="remove-btn"
+                        (click)="removeAll(item.product.id)">
+                  Eliminar
+                </button>
               </div>
-              <span class="item-price">{{ item.product.price * item.quantity | currency:'MXN' }}</span>
-              <button class="remove-btn" (click)="removeAll(item.product.id)">
-                Eliminar
-              </button>
             </div>
           </li>
-        }
-      </ul>
+          }
+        </ul>
 
-      <div class="cart-totals">
-        <div class="subtotal-row">
-          <span class="total-label">Subtotal (sin impuestos)</span>
-          <span class="total-amount">{{ subtotal() | currency:'MXN' }}</span>
+        <div class="cart-totals">
+          <div class="subtotal-row">
+            <span class="total-label">Subtotal (sin impuestos)</span>
+            <span class="total-amount">{{ subtotal() | currency:'MXN' }}</span>
+          </div>
+          <div class="taxes-row">
+            <span class="total-label">Impuestos (16% IVA)</span>
+            <span class="total-amount">{{ impuestos() | currency:'MXN' }}</span>
+          </div>
+          <div class="total-final">
+            <span class="total-label">Total</span>
+            <span class="total-amount">{{ totalConImpuestos() | currency:'MXN' }}</span>
+          </div>
         </div>
-        <div class="taxes-row">
-          <span class="total-label">Impuestos (16% IVA)</span>
-          <span class="total-amount">{{ impuestos() | currency:'MXN' }}</span>
-        </div>
-        <div class="total-final">
-          <span class="total-label">Total</span>
-          <span class="total-amount">{{ totalConImpuestos() | currency:'MXN' }}</span>
-        </div>
-      </div>
 
-      <div class="cart-actions">
-        <button class="btn btn-danger" (click)="vaciar()">
-          Vaciar carrito
-        </button>
-        <button class="btn btn-primary" (click)="exportarXML()">
-          Generar recibo
-        </button>
-      </div>
+        <div class="cart-actions">
+          <button type="button" class="btn btn-danger" (click)="vaciar()">
+            Vaciar carrito
+          </button>
+        </div>
 
-      <div #paypalButtonContainer class="paypal-container">
-        <div #paypalButtonContainer></div>
-        @if (mensaje) {
-          <p class="paypal-mensaje">{{ mensaje }}</p>
-        }
-      </div>
+        <div class="paypal-container">
+          @if (cargandoPaypal()) {
+            <div class="paypal-loading">
+              <span>Cargando métodos de pago...</span>
+            </div>
+          }
+          <div #paypalButtonContainer></div>
+          @if (mensaje()) {
+            <p class="paypal-mensaje">{{ mensaje() }}</p>
+          }
+        </div>
     }
+
   </div>
 </main>
 
