@@ -395,6 +395,25 @@
   transform: translateY(-2px);
 }
 
+.btn-checkout {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  border: none;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-checkout:hover {
+  background: linear-gradient(135deg, #66bb6a 0%, #388e3c 100%);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+  color: white;
+}
+
 .paypal-container {
   margin-top: 50px;
   margin-left: 25px;
@@ -442,4 +461,94 @@
   .cart-actions {
     flex-direction: column;
   }
+}
+
+/* Ticket de compra */
+.ticket-confirmado {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(46,125,50,0.15) 100%);
+  border-radius: 16px;
+  border: 2px solid rgba(76,175,80,0.5);
+  margin-top: 20px;
+}
+
+.ticket-success-icon {
+  font-size: 56px;
+  margin-bottom: 12px;
+}
+
+.ticket-confirmado h3 {
+  color: #a5d6a7;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.ticket-confirmado > p {
+  color: #b0bec5;
+  margin-bottom: 20px;
+}
+
+.ticket-resumen {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 18px 24px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.ticket-resumen p {
+  color: #cfd8dc;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.ticket-total {
+  font-size: 18px !important;
+  color: #a5d6a7 !important;
+  margin-top: 10px !important;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.ticket-acciones {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-xml {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-xml:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(76,175,80,0.4);
+}
+
+.btn-cerrar-ticket {
+  background: rgba(255,255,255,0.08);
+  color: #b0bec5;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-cerrar-ticket:hover {
+  background: rgba(255,255,255,0.14);
+  transform: translateY(-2px);
 }

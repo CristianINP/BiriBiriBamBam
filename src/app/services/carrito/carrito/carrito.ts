@@ -35,7 +35,7 @@ export class CarritoService {
   itemCount = computed(() => this.productosSignal().length);
 
   // Subtotal (sin impuestos)
-  subtotal = computed(() => this.productosSignal().reduce((acc, p) => acc + p.price, 0));
+  subtotal = computed(() => this.productosSignal().reduce((acc, p) => acc + Number(p.price), 0));
 
   // Total con impuestos (16% IVA)
   totalConImpuestos = computed(() => this.subtotal() * 1.16);
@@ -49,6 +49,16 @@ export class CarritoService {
       precio: item.product.price
     }))
   );
+
+  // Formato para enviar a PayPal (arreglo plano de items)
+  carritoParaPayPal() {
+    return this.productosSignal().map(p => ({
+      id: p.id,
+      nombre: p.name,
+      cantidad: 1,
+      precio: Number(p.price)
+    }));
+  }
   total = this.totalConImpuestos;
 
   // Impuestos (16%)
@@ -90,7 +100,7 @@ export class CarritoService {
       xml += `  <producto>\n`;
       xml += `    <id>${p.id}</id>\n`;
       xml += `    <nombre>${this.escapeXml(p.name)}</nombre>\n`;
-      xml += `    <precio>${p.price}</precio>\n`;
+      xml += `    <precio>${Number(p.price).toFixed(2)}</precio>\n`;
       if (p.description) {
         xml += `    <descripcion>${this.escapeXml(p.description)}</descripcion>\n`;
       }

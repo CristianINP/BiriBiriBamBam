@@ -20,7 +20,33 @@
 
     <h1 class="cart-title">Tu Carrito</h1>
 
-    @if (groupedItems().length === 0) {
+    @if (mostrarTicket()) {
+      <div class="ticket-confirmado">
+        <div class="ticket-success-icon">✅</div>
+        <h3>¡Pago completado!</h3>
+        <p>Tu compra ha sido registrada exitosamente.</p>
+
+        @if (ticketGenerado()) {
+          <div class="ticket-resumen">
+            <p><strong>Ticket #:</strong> {{ ticketGenerado().id_ticket }}</p>
+            <p><strong>Orden PayPal:</strong> {{ ticketGenerado().orderId }}</p>
+            <p><strong>Fecha:</strong> {{ ticketGenerado().fecha_compra | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Subtotal:</strong> {{ ticketGenerado().subtotal | currency:'MXN' }}</p>
+            <p><strong>Impuestos:</strong> {{ ticketGenerado().impuestos | currency:'MXN' }}</p>
+            <p class="ticket-total"><strong>Total:</strong> {{ ticketGenerado().total | currency:'MXN' }}</p>
+          </div>
+        }
+
+        <div class="ticket-acciones">
+          <button (click)="descargarXML()" class="btn-xml">
+            📄 Descargar recibo XML
+          </button>
+          <button (click)="cerrarTicket()" class="btn-cerrar-ticket">
+            Realizar otra compra
+          </button>
+        </div>
+      </div>
+    } @else if (groupedItems().length === 0) {
       <div class="empty-cart">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -35,7 +61,7 @@
         @for (item of groupedItems(); track item.product.id) {
           <li class="cart-item">
             <div class="item-info">
-              <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image"/>
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image" (error)="$any($event.target).src='https://placehold.co/72x72/0d1b2e/4a9eff?text=🧴'"/>
               <div class="item-details">
                 <h3>{{ item.product.name }}</h3>
                 <span class="item-category">{{ item.product.category }}</span>
@@ -75,15 +101,11 @@
         <button class="btn btn-danger" (click)="vaciar()">
           Vaciar carrito
         </button>
-        <button class="btn btn-primary" (click)="exportarXML()">
-          Generar recibo
-        </button>
       </div>
 
       <div #paypalButtonContainer class="paypal-container">
-        <div #paypalButtonContainer></div>
-        @if (mensaje) {
-          <p class="paypal-mensaje">{{ mensaje }}</p>
+        @if (mensaje()) {
+          <p class="paypal-mensaje">{{ mensaje() }}</p>
         }
       </div>
     }
