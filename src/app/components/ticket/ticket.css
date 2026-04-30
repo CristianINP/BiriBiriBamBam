@@ -1,0 +1,274 @@
+/* Ticket Styles */
+.ticket-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.ticket-error {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #f5c6cb;
+}
+
+.error-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.btn-retry {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-retry:hover {
+  background: #c82333;
+}
+
+.ticket-container {
+  max-width: 600px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ticket-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+
+.ticket-logo h1 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.ticket-logo h2 {
+  margin: 0;
+  font-size: 40px;
+}
+
+.ticket-meta {
+  margin-top: 15px;
+  opacity: 0.9;
+}
+
+.ticket-meta p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.ticket-body {
+  padding: 25px;
+}
+
+.section-title {
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.section-title h3 {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cliente-info {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.cliente-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.fecha-info {
+  text-align: center;
+  padding: 15px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.fecha-info p {
+  margin: 0;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.productos-lista {
+  margin-bottom: 20px;
+}
+
+.producto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.producto-item:last-child {
+  border-bottom: none;
+}
+
+.producto-nombre {
+  flex: 1;
+  color: #333;
+}
+
+.producto-detalles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 14px;
+  color: #666;
+}
+
+.producto-detalles strong {
+  color: #333;
+  margin-top: 4px;
+}
+
+.totales {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.total-row:last-child {
+  margin-bottom: 0;
+}
+
+.grand-total {
+  border-top: 2px solid #333;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.grand-total span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.metodo-pago {
+  padding: 15px;
+  background: #e3f2fd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.metodo-pago p {
+  margin: 5px 0;
+  color: #1565c0;
+}
+
+.status-aprobado {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.status-pendiente {
+  color: #f9a825;
+  font-weight: bold;
+}
+
+.status-cancelado {
+  color: #c62828;
+  font-weight: bold;
+}
+
+.ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px 25px;
+  background: #f8f9fa;
+  border-top: 1px solid #f0f0f0;
+}
+
+.ticket-actions button {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-descargar {
+  background: #667eea;
+  color: white;
+}
+
+.btn-descargar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-compartir {
+  background: #00c853;
+  color: white;
+}
+
+.btn-compartir:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 200, 83, 0.4);
+}
+
+.btn-cerrar {
+  background: #757575;
+  color: white;
+}
+
+.btn-cerrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(117, 117, 117, 0.4);
+}

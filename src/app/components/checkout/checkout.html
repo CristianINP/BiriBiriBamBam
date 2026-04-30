@@ -16,10 +16,42 @@
     }
 
     <hr>
-    <p><strong>Total: {{ total() | currency:'MXN' }}</strong></p>
+    <p><strong>Subtotal:</strong> {{ subtotal() | currency:'MXN' }}</p>
+    <p><strong>Impuestos (16%):</strong> {{ impuestos() | currency:'MXN' }}</p>
+    <p><strong>Total:</strong> {{ total() | currency:'MXN' }}</p>
 
-    <div #paypalButtonContainer></div><div #paypalButtonContainer class="paypal-container"></div>
+    @if (!mostrarTicket()) {
+      <div #paypalButtonContainer class="paypal-container"></div>
+      @if (mensaje()) {
+        <p>{{ mensaje() }}</p>
+      }
+    } @else {
+      <div class="ticket-confirmado">
+        <div class="success-icon">✅</div>
+        <h3>Pago completado exitosamente</h3>
+        <p>Se ha generado tu ticket de compra</p>
+        
+        @if (ticketGenerado()) {
+          <div class="ticket-resumen">
+            <p><strong>Ticket:</strong> #{{ ticketGenerado().id_ticket }}</p>
+            <p><strong>Orden:</strong> {{ ticketGenerado().orderId }}</p>
+            <p><strong>Fecha:</strong> {{ ticketGenerado().fecha_compra }}</p>
+            <p><strong>Total:</strong> {{ ticketGenerado().total | currency:'MXN' }}</p>
+          </div>
+        }
 
-    <p>{{ mensaje }}</p>
+        <div class="acciones-ticket">
+          <button (click)="descargarTicketXML()" class="btn-xml">
+            📄 Descargar Recibo XML
+          </button>
+          <button (click)="descargarTicketPDF()" class="btn-pdf">
+            📄 Descargar PDF
+          </button>
+          <a routerLink="/" class="btn-continuar">
+            🛍️ Seguir comprando
+          </a>
+        </div>
+      </div>
+    }
   </div>
 }

@@ -36,12 +36,7 @@ export class CarritoService {
   itemCount = computed(() => this.productosSignal().length);
 
   // Subtotal (sin impuestos)
-  subtotal = computed(() =>
-    this.productosSignal().reduce((acc, p) => acc + p.price, 0)
-  );
-
-  // Impuestos (16%)
-  impuestos = computed(() => this.subtotal() * 0.16);
+  subtotal = computed(() => this.productosSignal().reduce((acc, p) => acc + Number(p.price), 0));
 
   // Total con impuestos (16% IVA)
   totalConImpuestos = computed(() => this.subtotal() * 1.16);
@@ -57,6 +52,20 @@ export class CarritoService {
       precio: item.product.price
     }))
   );
+
+  // Formato para enviar a PayPal (arreglo plano de items)
+  carritoParaPayPal() {
+    return this.productosSignal().map(p => ({
+      id: p.id,
+      nombre: p.name,
+      cantidad: 1,
+      precio: Number(p.price)
+    }));
+  }
+  total = this.totalConImpuestos;
+
+  // Impuestos (16%)
+  impuestos = computed(() => this.subtotal() * 0.16);
 
   agregar(producto: Product, cantidad: number = 1) {
     // Forzar price a número — MySQL puede devolverlo como string
@@ -100,16 +109,11 @@ export class CarritoService {
     xml += `  <fecha>${fecha}</fecha>\n`;
     xml += `  <productos>\n`;
 
-    for (const item of items) {
-      const p = item.product;
-      const importe = p.price * item.quantity;
-      xml += `    <producto>\n`;
-      xml += `      <id>${p.id}</id>\n`;
-      xml += `      <nombre>${this.escapeXml(p.name)}</nombre>\n`;
-      xml += `      <categoria>${this.escapeXml(p.category ?? '')}</categoria>\n`;
-      xml += `      <cantidad>${item.quantity}</cantidad>\n`;
-      xml += `      <precio_unitario>${p.price.toFixed(2)}</precio_unitario>\n`;
-      xml += `      <importe>${importe.toFixed(2)}</importe>\n`;
+    for (const p of productos) {
+      xml += `  <producto>\n`;
+      xml += `    <id>${p.id}</id>\n`;
+      xml += `    <nombre>${this.escapeXml(p.name)}</nombre>\n`;
+      xml += `    <precio>${Number(p.price).toFixed(2)}</precio>\n`;
       if (p.description) {
         xml += `      <descripcion>${this.escapeXml(p.description)}</descripcion>\n`;
       }
