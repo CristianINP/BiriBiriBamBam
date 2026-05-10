@@ -66,6 +66,7 @@ class Ticket {
     +number id_ticket
     +string orderId
     +number id_usuario
+    +number pedido_id
     +string fecha_compra
     +string metodo_pago
     +number subtotal
@@ -87,7 +88,8 @@ class TicketDetails {
 class TicketCreateData {
     <<interface>>
     +string orderId
-    +number id_usuario
+    +number|null id_usuario
+    +number|null pedido_id
     +string metodo_pago
     +number subtotal
     +number impuestos
@@ -274,14 +276,22 @@ class CarritoComponent {
     +removeAll(id) void
     +vaciar() void
     +exportarXML() void
+    -guardarPedidoEnBD(folio, orderId, capture) Promise
 }
 
 class Checkout {
     <<component>>
     +Computed carrito
     +Computed total
-    +string mensaje
+    +Computed subtotal
+    +Computed impuestos
+    +Signal mensaje
+    +Signal mostrarTicket
+    +Signal ticketGenerado
+    +Signal cargandoPaypal
     +ngAfterViewInit() void
+    +descargarTicketXML() void
+    +descargarTicketPDF() void
 }
 
 class LoginComponent {
@@ -379,10 +389,14 @@ Navbar --> SearchService : inyecta
 
 CarritoComponent --> CarritoService : inyecta
 CarritoComponent --> PaypalService : inyecta
+CarritoComponent --> TicketService : inyecta
+CarritoComponent --> UserService : inyecta
 
 Checkout --> CarritoService : inyecta
 Checkout --> PaypalService : inyecta
 Checkout --> HistorialComprasService : inyecta
+Checkout --> TicketService : inyecta
+Checkout --> UserService : inyecta
 
 HistorialCompras --> HistorialComprasService : inyecta
 DetalleCompra --> HistorialComprasService : inyecta

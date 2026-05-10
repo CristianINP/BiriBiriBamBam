@@ -10,7 +10,8 @@ class Database {
     +string user
     +string password
     +string database
-    +Connection conexion
+    +Pool pool
+    +connectionLimit number
 }
 
 class PaypalConfig {
@@ -46,6 +47,8 @@ class TicketServiceBK {
     +getTicketWithDetails(id) Promise
     +getUserPurchaseReport(userId) Promise
 }
+%% createTicket acepta pedido_id opcional e id_usuario nullable
+%% getTicketWithDetails: LEFT JOIN usuarios + JOIN detalles_pedido
 
 %% ─── CONTROLADORES ─────────────────────────────────────────
 
@@ -85,6 +88,7 @@ class TicketController {
     +getTicketWithDetails(req, res) void
     +getUserPurchaseReport(req, res) void
 }
+%% createTicket: id_usuario es opcional (permite compras sin sesión)
 
 %% ─── RUTAS ──────────────────────────────────────────────────
 
