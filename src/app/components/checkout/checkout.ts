@@ -5,6 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import { CarritoService } from '../../services/carrito/carrito/carrito';
 import { PaypalService } from '../../services/paypal/paypal';
 import { HistorialComprasService } from '../../services/historial-compras/historial-compras';
+import { TicketService } from '../../services/ticket/ticket';
+import { UserService } from '../../services/user/user';
 import { environment } from '../../../environments/environment';
 
 declare const paypal: any;
@@ -26,9 +28,11 @@ export class Checkout implements AfterViewInit {
   @ViewChild('paypalButtonContainer')
   paypalButtonContainer!: ElementRef<HTMLDivElement>;
 
-  private carritoService = inject(CarritoService);
-  private paypalService  = inject(PaypalService);
+  private carritoService   = inject(CarritoService);
+  private paypalService    = inject(PaypalService);
   private historialService = inject(HistorialComprasService);
+  private ticketService    = inject(TicketService);
+  private userService      = inject(UserService);
 
   // Exponer del servicio para que el template pueda llamarlos como funciones
   carrito   = this.carritoService.carrito;
@@ -120,6 +124,22 @@ export class Checkout implements AfterViewInit {
             total:         this.totalSnapshot,
             items:         itemsParaHistorial,
           });
+
+          // Guardar ticket si hay usuario autenticado
+          const usuario = this.userService.getUsuarioActual();
+          if (usuario) {
+            firstValueFrom(
+              this.ticketService.generarTicket({
+                orderId:     data.orderID,
+                id_usuario:  usuario.id_usuario,
+                metodo_pago: 'PayPal',
+                subtotal:    this.subtotalSnapshot,
+                impuestos:   this.ivaSnapshot,
+                total:       this.totalSnapshot,
+                estado:      'APROBADO',
+              })
+            ).catch(e => console.error('Error guardando ticket (no crítico):', e));
+          }
 
           this.ticketGenerado.set({
             id_ticket:    folio,

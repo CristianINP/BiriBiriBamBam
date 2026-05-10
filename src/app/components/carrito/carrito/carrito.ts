@@ -16,6 +16,8 @@ import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { CarritoService } from '../../../services/carrito/carrito/carrito';
 import { PaypalService } from '../../../services/paypal/paypal';
+import { TicketService } from '../../../services/ticket/ticket';
+import { UserService } from '../../../services/user/user';
 import { Product } from '../../../models/producto/producto';
 import { Navbar } from '../../navbar/navbar';
 import { Footer } from '../../footer/footer';
@@ -36,6 +38,8 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
 
   private carritoService = inject(CarritoService);
   private paypalService  = inject(PaypalService);
+  private ticketService  = inject(TicketService);
+  private userService    = inject(UserService);
   private zone           = inject(NgZone);
   private platformId     = inject(PLATFORM_ID);
 
@@ -215,15 +219,20 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
   }
 
   private async guardarPedidoEnBD(folio: string, paypalOrderId: string, captureData: any) {
+    const subtotal = this.carritoService.subtotal();
+    const impuestos = this.carritoService.impuestos();
+    const total = this.carritoService.totalConImpuestos();
+
+    // Guardar pedido con productos en detalles_pedido
     try {
       await firstValueFrom(
         this.paypalService.guardarPedido({
           folio,
           paypalOrderId,
           paypalEstado: captureData?.status ?? 'COMPLETED',
-          subtotal: this.carritoService.subtotal(),
-          iva:      this.carritoService.impuestos(),
-          total:    this.carritoService.totalConImpuestos(),
+          subtotal,
+          iva: impuestos,
+          total,
           items: this.carritoService.groupedItems().map(item => ({
             producto_id:     item.product.id,
             nombre_producto: item.product.name,
@@ -235,7 +244,27 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
         })
       );
     } catch (err) {
-      console.error('Error guardando pedido en BD (no crítico):', err);
+      console.error('Error guardando pedido en BD:', err);
+    }
+
+    // Guardar ticket si hay usuario autenticado
+    const usuario = this.userService.getUsuarioActual();
+    if (usuario) {
+      try {
+        await firstValueFrom(
+          this.ticketService.generarTicket({
+            orderId:      paypalOrderId,
+            id_usuario:   usuario.id_usuario,
+            metodo_pago:  'PayPal',
+            subtotal,
+            impuestos,
+            total,
+            estado:       'APROBADO',
+          })
+        );
+      } catch (err) {
+        console.error('Error guardando ticket (no crítico):', err);
+      }
     }
   }
 
