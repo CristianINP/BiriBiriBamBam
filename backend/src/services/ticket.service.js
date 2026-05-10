@@ -92,10 +92,10 @@ export class TicketService {
           t.orderId,
           t.id_usuario,
           t.pedido_id,
-          u.nombre,
-          u.apellido,
-          u.email,
-          u.telefono,
+          COALESCE(u.nombre, 'Invitado')   AS nombre,
+          COALESCE(u.apellido, '')          AS apellido,
+          COALESCE(u.email, '')             AS email,
+          COALESCE(u.telefono, '')          AS telefono,
           t.fecha_compra,
           t.metodo_pago,
           t.subtotal,
@@ -103,7 +103,7 @@ export class TicketService {
           t.total,
           t.estado
         FROM tickets t
-        JOIN usuarios u ON t.id_usuario = u.id_usuario
+        LEFT JOIN usuarios u ON t.id_usuario = u.id_usuario
         WHERE t.id_ticket = ?
       `;
       conexion.query(query, [ticketId], (error, results) => {

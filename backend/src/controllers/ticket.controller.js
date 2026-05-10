@@ -4,7 +4,7 @@ export const createTicket = async (req, res) => {
   try {
     const { orderId, id_usuario, pedido_id, metodo_pago, subtotal, impuestos, total, estado } = req.body;
 
-    if (!orderId || !id_usuario || !subtotal || !impuestos || !total) {
+    if (!orderId || !subtotal || !impuestos || !total) {
       return res.status(400).json({
         error: 'Faltan datos requeridos para generar el ticket'
       });

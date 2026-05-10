@@ -249,25 +249,23 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
       console.error('Error guardando pedido en BD:', err);
     }
 
-    // 2. Guardar ticket vinculado al pedido (solo si hay usuario autenticado)
+    // 2. Guardar ticket siempre (con o sin usuario logueado)
     const usuario = this.userService.getUsuarioActual();
-    if (usuario) {
-      try {
-        await firstValueFrom(
-          this.ticketService.generarTicket({
-            orderId:     paypalOrderId,
-            id_usuario:  usuario.id_usuario,
-            pedido_id:   pedidoId,
-            metodo_pago: 'PayPal',
-            subtotal,
-            impuestos,
-            total,
-            estado:      'APROBADO',
-          })
-        );
-      } catch (err) {
-        console.error('Error guardando ticket (no crítico):', err);
-      }
+    try {
+      await firstValueFrom(
+        this.ticketService.generarTicket({
+          orderId:     paypalOrderId,
+          id_usuario:  usuario?.id_usuario ?? null,
+          pedido_id:   pedidoId,
+          metodo_pago: 'PayPal',
+          subtotal,
+          impuestos,
+          total,
+          estado:      'APROBADO',
+        })
+      );
+    } catch (err) {
+      console.error('Error guardando ticket (no crítico):', err);
     }
   }
 

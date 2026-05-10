@@ -31,7 +31,7 @@ export interface TicketDetails extends Ticket {
 
 export interface TicketCreateData {
   orderId: string;
-  id_usuario: number;
+  id_usuario: number | null;
   pedido_id?: number | null;
   metodo_pago: string;
   subtotal: number;

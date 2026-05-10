@@ -125,22 +125,20 @@ export class Checkout implements AfterViewInit {
             items:         itemsParaHistorial,
           });
 
-          // Guardar ticket vinculado al pedido (solo si hay usuario autenticado)
+          // Guardar ticket siempre (con o sin usuario logueado)
           const usuario = this.userService.getUsuarioActual();
-          if (usuario) {
-            firstValueFrom(
-              this.ticketService.generarTicket({
-                orderId:     data.orderID,
-                id_usuario:  usuario.id_usuario,
-                pedido_id:   pedidoResp?.pedidoId ?? null,
-                metodo_pago: 'PayPal',
-                subtotal:    this.subtotalSnapshot,
-                impuestos:   this.ivaSnapshot,
-                total:       this.totalSnapshot,
-                estado:      'APROBADO',
-              })
-            ).catch(e => console.error('Error guardando ticket (no crítico):', e));
-          }
+          firstValueFrom(
+            this.ticketService.generarTicket({
+              orderId:     data.orderID,
+              id_usuario:  usuario?.id_usuario ?? null,
+              pedido_id:   pedidoResp?.pedidoId ?? null,
+              metodo_pago: 'PayPal',
+              subtotal:    this.subtotalSnapshot,
+              impuestos:   this.ivaSnapshot,
+              total:       this.totalSnapshot,
+              estado:      'APROBADO',
+            })
+          ).catch(e => console.error('Error guardando ticket (no crítico):', e));
 
           this.ticketGenerado.set({
             id_ticket:    folio,

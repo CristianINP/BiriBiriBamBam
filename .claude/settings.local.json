@@ -11,7 +11,9 @@
       "Bash(git fetch *)",
       "PowerShell(Get-ChildItem *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/paypal/guardar-pedido -H 'Content-Type: application/json' -d '{ *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/tickets -H 'Content-Type: application/json' -d '{ *)"
     ]
   }
 }
