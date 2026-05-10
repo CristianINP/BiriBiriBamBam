@@ -24,7 +24,6 @@ class PaypalConfig {
 
 class PaypalServiceBK {
     <<service>>
-    +getBasicAuth() string
     +getAccessToken() Promise
     +createPaypalOrder(orderData) Promise
     +capturePaypalOrder(orderId) Promise

@@ -53,6 +53,14 @@ class User {
     +string created_at
 }
 
+class UserRegistrationData {
+    <<interface>>
+    +string email
+    +string nombre
+    +string apellido
+    +string telefono
+}
+
 class Ticket {
     <<interface>>
     +number id_ticket
@@ -64,6 +72,7 @@ class Ticket {
     +number impuestos
     +number total
     +string estado
+    +string created_at
 }
 
 class TicketDetails {
@@ -73,6 +82,17 @@ class TicketDetails {
     +string email
     +string telefono
     +Array productos
+}
+
+class TicketCreateData {
+    <<interface>>
+    +string orderId
+    +number id_usuario
+    +string metodo_pago
+    +number subtotal
+    +number impuestos
+    +number total
+    +string estado
 }
 
 class PedidoPayload {
@@ -105,11 +125,14 @@ class ProductsService {
 class CarritoService {
     <<service>>
     -Signal productosSignal
+    +Computed productos
     +Computed groupedItems
     +Computed itemCount
     +Computed subtotal
     +Computed impuestos
     +Computed totalConImpuestos
+    +Computed total
+    +Computed carrito
     +agregar(product, cantidad) void
     +quitar(id) void
     +removeAll(id) void
@@ -122,6 +145,8 @@ class SearchService {
     <<service>>
     -Signal searchSignal
     -Signal categoryFilterSignal
+    +Readonly search
+    +Readonly categoryFilter
     +setSearch(query) void
     +setCategoryFilter(category) void
     +clearCategoryFilter() void
@@ -141,11 +166,13 @@ class HistorialComprasService {
     -HttpClient http
     -string apiUrl
     -Signal comprasSignal
+    +Readonly compras
     +Signal loading
     +Signal error
     +obtenerCompras() Promise
     +obtenerCompraPorId(id) Promise
     +guardarCompra(compra) Promise
+    +cargarComprasSimuladas() Promise
     +limpiarCompras() void
 }
 
@@ -156,6 +183,7 @@ class UserService {
     +Signal usuario
     +registrarUsuario(data) Observable
     +loginUsuario(data) Observable
+    +obtenerUsuario(id) Observable
     +setUsuario(usuario) void
     +clearUsuario() void
     +getUsuarioActual() User
@@ -189,6 +217,8 @@ class Navbar {
     +Signal searchQuery
     +onSearch() void
     +clearSearch() void
+    +goHome() void
+    +goToCatalog() void
     +goToHistorial() void
 }
 
@@ -202,11 +232,14 @@ class Footer {
 class Catalogo {
     <<component>>
     +Signal products
+    +Signal allProducts
     +Computed filteredProducts
     +Computed categories
+    +Computed inStockCount
     +ngOnInit() void
     +agregar(event) void
     +onCategoryChange(category) void
+    +getCategoryCount(category) number
     +clearAllFilters() void
 }
 
@@ -215,6 +248,8 @@ class ProductCard {
     +Product product
     +EventEmitter add
     +Signal quantity
+    +incrementQuantity() void
+    +decrementQuantity() void
     +onAdd() void
 }
 
@@ -231,18 +266,21 @@ class CarritoComponent {
     +Signal mensaje
     +Signal pagoExitoso
     +Signal folioPago
+    +Signal cargandoPaypal
     +ngAfterViewInit() void
     +ngOnDestroy() void
     +agregar(producto) void
     +quitar(id) void
+    +removeAll(id) void
     +vaciar() void
     +exportarXML() void
 }
 
 class Checkout {
     <<component>>
-    +Signal carrito
-    +Signal total
+    +Computed carrito
+    +Computed total
+    +string mensaje
     +ngAfterViewInit() void
 }
 
@@ -250,26 +288,37 @@ class LoginComponent {
     <<component>>
     +string email
     +string nombre
+    +string apellido
+    +string telefono
     +boolean modoRegistro
+    +string mensaje
+    +boolean cargando
     +submit() Promise
+    +alternarModo() void
+    +limpiar() void
     +cerrarSesion() void
 }
 
 class HistorialCompras {
     <<component>>
-    +Signal compras
-    +Signal loading
-    +Signal error
+    +Readonly compras
+    +Readonly loading
+    +Readonly error
     +ngOnInit() void
     +cargarCompras() void
+    +formatearFecha(fecha) string
+    +formatearMoneda(valor) string
 }
 
 class DetalleCompra {
     <<component>>
     +PurchaseOrder compra
-    +Signal loading
+    +Readonly loading
+    +Readonly error
     +ngOnInit() void
     +cargarCompra(id) void
+    +formatearFecha(fecha) string
+    +formatearMoneda(valor) string
 }
 
 class TicketComponent {
@@ -277,8 +326,14 @@ class TicketComponent {
     +Signal ticket
     +Signal usuario
     +Signal cargando
+    +Signal error
+    +boolean navigatorShare
     +ngOnInit() void
+    +cargarTicket() Promise
+    +cerrarTicket() void
     +descargarPDF() void
+    +compartirTicket() void
+    +formatearFecha(fecha) string
 }
 
 class Contactos {
@@ -296,6 +351,7 @@ class Privacidad {
 PurchaseOrder o-- PurchaseItem : contiene
 TicketDetails --|> Ticket : extiende
 CartItem --> Product : referencia
+UserRegistrationData ..> User : crea
 
 %% ─── RELACIONES SERVICIOS → MODELOS ─────────────────────────
 ProductsService ..> Product : retorna
@@ -304,8 +360,10 @@ CarritoService ..> CartItem : crea
 PaypalService ..> PedidoPayload : recibe
 HistorialComprasService ..> PurchaseOrder : retorna
 UserService ..> User : retorna
+UserService ..> UserRegistrationData : recibe
 TicketService ..> Ticket : retorna
 TicketService ..> TicketDetails : retorna
+TicketService ..> TicketCreateData : recibe
 
 %% ─── RELACIONES COMPONENTES → SERVICIOS ─────────────────────
 Catalogo --> ProductsService : inyecta
